@@ -9,7 +9,7 @@ require_once 'ims-blti/blti.php';
 if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
     //setting user sessions
     $currentCookieParams = session_get_cookie_params();
-    if (isChromeOrEdge) $cookie_loation = $cookie_loation . ' partitioned;';
+    if (isChromeOrEdge()) $cookie_loation = $cookie_loation . ' partitioned;';
     session_set_cookie_params(
         $currentCookieParams["lifetime"],
         $cookie_loation,
@@ -26,7 +26,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);
         
-        readfile('home.php');
+        include 'home.php';
     }
 }
 else { 
