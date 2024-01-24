@@ -26,7 +26,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);
         
-        include('home.php');
+        readfile('home.php');
     }
 }
 else { 
