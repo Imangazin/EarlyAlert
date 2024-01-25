@@ -8,6 +8,8 @@ if(empty($a) && !empty($_POST["session_id"])) session_id($_POST["session_id"]);
 
 session_start();
 
+echo 'key: ' . $_SESSION['_basic_lti_context']->oauth_consumer_key;
+
 if($_SESSION['_basic_lti_context']->oauth_consumer_key == $lti_auth['key']){
     $user_id = $_SESSION['_basic_lti_context']->user_id;
     preg_match('/_(\d+)/', $user_id, $matches);
