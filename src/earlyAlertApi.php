@@ -3,10 +3,10 @@ require_once("functions.php");
 require_once("info.php");
 
 //Detects if session_id is empty, then looks to see if one has been stashed in a hidden form item to allow cross domain requests
-$a = session_id();
-if(empty($a) && !empty($_POST["session_id"])) session_id($_POST["session_id"]); 
+// $a = session_id();
+// if(empty($a) && !empty($_POST["session_id"])) session_id($_POST["session_id"]); 
 
-session_start();
+// session_start();
 //$_SESSION['_basic_lti_context']->oauth_consumer_key == $lti_auth['key']
 if(false){
     // $user_id = $_SESSION['_basic_lti_context']->user_id;
