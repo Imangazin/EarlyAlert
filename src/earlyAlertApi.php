@@ -7,8 +7,8 @@ $a = session_id();
 if(empty($a) && !empty($_POST["session_id"])) session_id($_POST["session_id"]); 
 
 session_start();
-
-if($_SESSION['_basic_lti_context']->oauth_consumer_key == $lti_auth['key']){
+//$_SESSION['_basic_lti_context']->oauth_consumer_key == $lti_auth['key']
+if(false){
     // $user_id = $_SESSION['_basic_lti_context']->user_id;
     // preg_match('/_(\d+)/', $user_id, $matches);
     // $auditeeId = (bool) $matches ? $matches[1] : -1;
