@@ -11,7 +11,7 @@
 </head>
 <body style="font-family: 'Lato', sans-serif;color: #202122;">
   <div class="container">
-    <?php $message = $hasAuditor ? "Your advisor can see your course progress for current semester.":"Please consent to give your advisor access to your course progress for current semester.";
+    <?php $message = $hasAuditor ? "Your advisor can see your course progress for current semester.<br>":"Please consent to give your advisor access to your course progress for current semester.<br>";
     echo $message; ?>
     <form method="post" id="earlyAlertForm">
       <input type="hidden" name="session_id" value='<?php echo session_id(); ?>'>
@@ -24,7 +24,7 @@
           }
         $advisorSelect .= '</select>
         </div>';
-        if ($hasAuditor) echo $advisorSelect;
+        if (!$hasAuditor) echo $advisorSelect;
       ?>
       <div class="mb-3">
         <button type="submit" class="btn btn-primary"><?php if ($hasAuditor) echo 'Cancel'; else echo 'Consent';?></button>

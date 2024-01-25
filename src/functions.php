@@ -3,12 +3,19 @@
 require_once("info.php");
 require_once("doValence.php");
 
+function isChromeOrEdge() {
+    $userAgent = $_SERVER['HTTP__AGENT'];
+    return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
+}
+
 function hasAuditor($userId){
-    $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LP_Version'].'/auditing/auditees/'.$userId);
+    global $config;
+    $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditees/'.$userId);
     return count(($response['response']->Auditors)===0) ? false : true;
 }
 
 function getAdvisors($orgUnitId){
+    global $config;
     $qparams = array("roleId"=>109);
     $response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/enrollments/orgUnits/'.$orgUnitId.'/users/?roleId=109');
     $advisors = array();
@@ -19,7 +26,8 @@ function getAdvisors($orgUnitId){
 }
 
 function addDeleteAuditor($verb, $auditorId, $auditeeId){
-    return doValenceRequest($verb, '/d2l/api/le/1.74/auditing/auditors/'.$auditorId.'/auditees/', $auditeeId); 
+    global $config;
+    return doValenceRequest($verb, '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditors/'.$auditorId.'/auditees/', $auditeeId); 
 }
 
 function getCurrentAcademicTerm() {

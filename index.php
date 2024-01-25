@@ -1,12 +1,8 @@
 <?php
 require_once("src/info.php");
+require_once("src/functions.php");
 // Load up the LTI Support code
 require_once 'ims-blti/blti.php';
-
-function isChromeOrEdge() {
-    $userAgent = $_SERVER['HTTP__AGENT'];
-    return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
-}
 
 //All of the LTI Launch data gets passed through in $_REQUEST
 if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
@@ -21,10 +17,11 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         "1"
     );
     $context = new BLTI($lti_auth['secret'], true, false);
-    
+    session_start();
+
     if($context->complete) exit(); //True if redirect was done by BLTI class
     if($context->valid) { //True if LTI request was verified
-        $userId = preg_match('/_(\d+)/', $context->user['user_id'], $matches) ? $matches[1] : '-1';
+        $userId = preg_match('/_(\d+)/', $context->info['user_id'], $matches) ? $matches[1] : '-1';
         $orgUnitId = $context->info['context_id'];
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);

@@ -23,5 +23,6 @@ $config = array(
     'userId'     => '',
     'userKey'    => '',
 
-    'LP_Version' => '1.42');
+    'LP_Version' => '1.45',
+    'LE_Version' => '1.74');
 ?>
