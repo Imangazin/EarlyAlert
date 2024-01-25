@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         // Make AJAX request
         $.ajax({
-            url: "src/earlyAlertApi.php", // Replace with your server endpoint
+            url: "earlyAlertApi.php", // Replace with your server endpoint
             type: "POST",
             data: formData,
             success: function(response) {
