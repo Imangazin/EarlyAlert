@@ -11,8 +11,8 @@ session_start();
 echo 'session_id: ' . session_id();
 echo gettype($_SESSION['_basic_lti_context']);
 
-if($_SESSION['_basic_lti_context']->oauth_consumer_key == $lti_auth['key']){
-    $user_id = $_SESSION['_basic_lti_context']->user_id;
+if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
+    $user_id = $_SESSION['_basic_lti_context']['user_id'];
     preg_match('/_(\d+)/', $user_id, $matches);
     $auditeeId = (bool) $matches ? $matches[1] : -1;
     $auditorId = $_POST["advisor"];
