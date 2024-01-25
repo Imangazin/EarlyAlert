@@ -9,7 +9,7 @@ if(empty($session_id) && !empty($_POST["session_id"])) session_id($_POST["sessio
 session_start();
 
 echo 'session_id: ' . session_id();
-echo $_SESSION['_basic_lti_context']->oauth_consumer_key;
+echo gettype($_SESSION['_basic_lti_context']);
 
 if($_SESSION['_basic_lti_context']->oauth_consumer_key == $lti_auth['key']){
     $user_id = $_SESSION['_basic_lti_context']->user_id;
