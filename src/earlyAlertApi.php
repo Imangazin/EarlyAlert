@@ -2,10 +2,8 @@
 require_once("functions.php");
 require_once("info.php");
 
-session_start();
-
 //Detects if session_id is empty, then looks to see if one has been stashed in a hidden form item to allow cross domain requests
-$sa = session_id();
+$a = session_id();
 if(empty($a) && !empty($_POST["session_id"])) session_id($_POST["session_id"]); 
 
 session_start();
