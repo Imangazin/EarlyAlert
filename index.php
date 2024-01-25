@@ -1,9 +1,12 @@
 <?php
 require_once("src/info.php");
-require_once("src/doValence.php");
-require_once("src/functions.php");
 // Load up the LTI Support code
 require_once 'ims-blti/blti.php';
+
+function isChromeOrEdge() {
+    $userAgent = $_SERVER['HTTP__AGENT'];
+    return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
+}
 
 //All of the LTI Launch data gets passed through in $_REQUEST
 if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?

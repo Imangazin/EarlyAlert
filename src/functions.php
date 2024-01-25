@@ -3,16 +3,6 @@
 require_once("info.php");
 require_once("doValence.php");
 
-// Will use partitioned cookie for chrome and edge
-function isChromeOrEdge($userAgent = '') {
-    // Get the current user agent if none provided
-    if (empty($userAgent)) {
-        $userAgent =SERVER['HTTP_USER_AG'];
-    }
-    // Check if user agent contains "Chrome" or "Edg"
-    return (strpos($userAgent, 'Chrome') !== false || strpos($userAgent, 'Edg') !== false);
-}
-
 function hasAuditor($userId){
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LP_Version'].'/auditing/auditees/'.$userId);
     return count(($response['response']->Auditors)===0) ? false : true;
