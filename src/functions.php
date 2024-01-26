@@ -11,7 +11,9 @@ function isChromeOrEdge() {
 function hasAuditor($userId){
     global $config;
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditees/'.$userId);
-    return count($response['response']['Auditors'])==0;
+    echo count($response['response']->Auditors);
+    echo var_dump($response);
+    return count($response['response']->Auditors)==0;
 }
 
 function getAdvisors($orgUnitId){
