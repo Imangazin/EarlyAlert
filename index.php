@@ -28,7 +28,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $advisors = getAdvisors($orgUnitId);
         $myAuditors = getMyAuditors($userId);
 
-        if ($hasAuditor) echo 'hasAuditor'; else echo 'has no Auditor';
+        echo 'My Auditors: ' . $myAuditors . 'haha';
         
         include 'home.php';
     }
