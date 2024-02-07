@@ -46,9 +46,9 @@ function getMyAuditors($auditeeId){
     global $config;
     $result ='';
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'auditing/auditees/'.$auditeeId); 
+    echo var_dump($response);
     if (!empty($response['response']->Auditors)){
         $myAuditors = array_column($response['response']->Auditors, 'AuditorId');
-        echo var_dump($response);
         $result = implode(',', $myAuditors);
     }
     return $result;
