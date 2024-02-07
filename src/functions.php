@@ -42,4 +42,11 @@ function getCurrentAcademicTerm() {
     }
 }
 
+function getMyAuditors($auditeeId){
+    global $config;
+    $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'auditing/auditees/'.$auditeeId); 
+    $myAuditors = array_column($response['response']->Auditors, 'AuditorId');
+    return implode(',', $myAuditors);
+}
+
 ?>

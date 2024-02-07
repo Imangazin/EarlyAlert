@@ -11,10 +11,13 @@
 </head>
 <body style="font-family: 'Lato', sans-serif;color: #202122;">
   <div class="container">
-    <?php $message = $hasAuditor ? "Your advisor can see your course progress for current semester.<br>":"Please consent to give your advisor access to your course progress for current semester.<br>";
-    echo $message; ?>
+    <?php 
+    $message = $hasAuditor ? "Your advisor(s) can see your course progress for current semester.<br>":"Please consent to give your advisor access to your course progress for current semester.<br>";
+    echo $message; 
+    ?>
     <form method="post" id="earlyAlertForm">
       <input type="hidden" name="session_id" value='<?php echo session_id(); ?>'>
+      <input type ="hidden" name="myAuditors" value='<?php echo $myAuditors ?>'>
       <?php 
         $advisorSelect = '<div class="mb-3">
           <select class="form-select" id="advisor" required name="advisor" >
