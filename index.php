@@ -26,11 +26,11 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $orgUnitId = $context->info['context_id'];
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);
-        $myAuditors = getMyAuditors($userId);
+        //$myAuditors = getMyAuditors($userId);
 
         if ($hasAuditor) echo 'hasAuditor'; else echo 'has no Auditor';
         
-        //include 'home.php';
+        include 'home.php';
     }
 }
 else { 
