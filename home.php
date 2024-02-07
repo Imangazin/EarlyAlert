@@ -17,7 +17,7 @@
     ?>
     <form method="post" id="earlyAlertForm">
       <input type="hidden" name="session_id" value='<?php echo session_id(); ?>'>
-      <input type ="hidden" name="myAuditors" value='<?php echo $myAuditors ?>'>
+      <input type ="hidden" name="myAuditors" value='<?php echo $myAuditors; ?>'>
       <?php 
         $advisorSelect = '<div class="mb-3">
           <select class="form-select" id="advisor" required name="advisor" >
