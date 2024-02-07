@@ -44,9 +44,13 @@ function getCurrentAcademicTerm() {
 
 function getMyAuditors($auditeeId){
     global $config;
+    $result ='';
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'auditing/auditees/'.$auditeeId); 
-    $myAuditors = array_column($response['response']->Auditors, 'AuditorId');
-    return implode(',', $myAuditors);
+    if (!empty($response['response']->Auditors)){
+        $myAuditors = array_column($response['response']->Auditors, 'AuditorId');
+        $result = implode(',', $myAuditors);
+    }
+    return $result;
 }
 
 ?>
