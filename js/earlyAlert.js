@@ -15,7 +15,7 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 // Handle successful response
-                $("#responseContainer").html("");
+                $("#responseContainer").html(response);
             },
             error: function(xhr, status, error) {
                 // Handle errors
