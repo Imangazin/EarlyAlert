@@ -30,7 +30,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
 
         if ($hasAuditor) echo 'hasAuditor'; else echo 'has no Auditor';
         
-        include 'home.php';
+        //include 'home.php';
     }
 }
 else { 
