@@ -18,6 +18,9 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
         if ($response['Code']==200) {
             echo 'Your advisor have access to all course progresses.';
         }
+        else {
+            echo 'Sorry, a technical error occurred, please contact '.$supportEmail.' for support.';
+        }
     } else{
         $myAuditors = explode(',', $_POST["myAuditors"]);
         foreach ($myAuditors as $auditorId) {
@@ -26,9 +29,12 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
         if ($response['Code']==200) {
             echo 'Your advisor(s) no longer have access to all course progresses.';
         }
+        else {
+            echo 'Sorry, a technical error occurred, please contact '.$supportEmail.' for support.';
+        }
     }
 } else {
-    echo "Expired user session, please contact ".$supportEmail.' for support.';
+    echo 'Expired user session, please contact '.$supportEmail.' for support.';
 }
 
 ?>

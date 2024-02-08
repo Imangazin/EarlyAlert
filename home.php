@@ -44,7 +44,7 @@
         if (!$hasAuditor) echo $advisorSelect;
       ?>
       <div class="mb-3">
-        <button type="submit" class="btn btn-primary"><?php if ($hasAuditor) echo 'Cancel'; else echo 'Consent';?></button>
+        <button type="submit" class="btn btn-primary" id="early_alert_btn"><?php if ($hasAuditor) echo 'Cancel'; else echo 'Consent';?></button>
       </div>
     </form>
     <div id="responseContainer" tabindex="-1"></div>
