@@ -8,6 +8,20 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!-- jquery -->
 <script src="https://s.brightspace.com/lib/jquery/3.7.1/jquery.min.js"></script>
+<style>
+        .btn-primary {
+                color: #ffffff;
+                background-color: #006fbf;
+        }
+        .btn-primary:hover {
+                color: #ffffff;
+                background-color: #004489;
+        }
+        .btn-primary:active {
+                color: #ffffff;
+                background-color: #004489;
+        }
+  </style>
 </head>
 <body style="font-family: 'Lato', sans-serif;color: #202122;">
   <div class="container">
