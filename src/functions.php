@@ -55,6 +55,7 @@ function getMyAuditors($auditeeId){
 }
 
 function createGroupCategory($orgUnitId){
+    global $config;
     $data = array(
         "Name" => "Early Alert Widget",
         "Description" => array("Content"=>"Early-Alert Widget DB. Do not delete. Do not change its name.", "Type"=>"Html"),
@@ -75,6 +76,7 @@ function createGroupCategory($orgUnitId){
 }
 
 function createGroup($orgUnitId, $groupCategotyId, $name, $code){
+    global $config;
     $data = array(
         "Name" => $name,
         "Code" => $code,
@@ -85,6 +87,7 @@ function createGroup($orgUnitId, $groupCategotyId, $name, $code){
 }
 
 function getGroupCategoryId($orgUnitId){
+    global $config;
     $groupCategoryId = -1;
     $response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/');
     echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/';
