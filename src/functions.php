@@ -54,4 +54,48 @@ function getMyAuditors($auditeeId){
     return $result;
 }
 
+function createGroupCategory($orgUnitId){
+    $data = array(
+        "Name" => "Early Alert Widget",
+        "Description" => array("Content"=>"Early-Alert Widget DB. Do not delete. Do not change its name.", "Type"=>"Html"),
+        "EnrollmentStyle" => 0,
+        "EnrollmentQuantity" => null,
+        "AutoEnroll" => false,
+        "RandomizeEnrollments" => false,
+        "NumberOfGroups" => 1,
+        "MaxUsersPerGroup" => null,
+        "AllocateAfterExpiry" => false,
+        "SelfEnrollmentExpiryDate" => null,
+        "GroupPrefix" => null,
+        "RestrictedByOrgUnitId" => null,
+        "DescriptionsVisibleToEnrolees" => false
+    );
+    $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/');
+    return $response->CategoryId;
+}
+
+function createGroup($orgUnitId, $groupCategotyId, $name, $code){
+    $data = array(
+        "Name" => $name,
+        "Code" => $code,
+        "Description" => array("Content"=>"", "Type"=>"Html")
+    );
+    $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategotyId.'/groups/');
+    return $response->GroupId;
+}
+
+function getGroupCategoryId($orgUnitId){
+    $groupCategoryId = -1;
+    $response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/');
+    foreach($response['response'] as $groupCategories){
+        if (strpos($groupCategories->Name, "Early Alert") !== false){
+            $groupCategoryId = $groupCategories->GroupCategoryId;
+        }   
+    }
+
+    if ($groupCategoryId == -1){
+        $groupCategoryId = createGroupCategory($orgUnitId);
+    }
+    return $groupCategoryId;
+}
 ?>

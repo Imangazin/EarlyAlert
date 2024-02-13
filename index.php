@@ -24,6 +24,11 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
     if($context->valid) { //True if LTI request was verified
         $userId = preg_match('/_(\d+)/', $context->info['user_id'], $matches) ? $matches[1] : '-1';
         $orgUnitId = $context->info['context_id'];
+
+        $groupCategoryId = getGroupCategoryId($orgUnitId);
+        echo "Group category id: ". $groupCategoryId;
+
+
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);
         $myAuditors = getMyAuditors($userId);
