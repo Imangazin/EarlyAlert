@@ -87,6 +87,7 @@ function createGroup($orgUnitId, $groupCategotyId, $name, $code){
 function getGroupCategoryId($orgUnitId){
     $groupCategoryId = -1;
     $response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/');
+    echo var_dump($response);
     foreach($response['response'] as $groupCategories){
         if (strpos($groupCategories->Name, "Early Alert") !== false){
             $groupCategoryId = $groupCategories->GroupCategoryId;
