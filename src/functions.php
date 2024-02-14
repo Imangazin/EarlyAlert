@@ -72,8 +72,6 @@ function createGroupCategory($orgUnitId){
         "DescriptionsVisibleToEnrolees" => false
     );
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/', $data);
-    echo var_dump($response);
-    return $response->CategoryId;
 }
 
 function createGroup($orgUnitId, $groupCategotyId, $name, $code){
@@ -98,7 +96,8 @@ function getGroupCategoryId($orgUnitId){
     }
 
     if ($groupCategoryId == -1){
-        $groupCategoryId = createGroupCategory($orgUnitId);
+        createGroupCategory($orgUnitId);
+        $groupCategoryId = getGroupCategoryId($orgUnitId);
     }
     return $groupCategoryId;
 }
