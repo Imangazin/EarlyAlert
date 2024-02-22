@@ -102,83 +102,83 @@ function getGroupCategoryId($orgUnitId){
     return $groupCategoryId;
 }
 
-function getGroups($orgUnitId, $categoryId){
-    global $config;
+// function getGroups($orgUnitId, $categoryId){
+//     global $config;
     
-    // Collecting terms info, paged response
-    $hasMore = true;
-    $bookmark = '';
-    $data = [];
-    while ($hasMore){
-        $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
-        foreach($terms_response['response']['Items'] as $item){
-            $data[]=[
-                'Name' => $item['Name'],
-                'Code' => $item['Code']
-            ];
-        }
-        $hasMore = $terms_response['response']['PagingInfo']['HasMoreItems'];
-        $bookmark = $terms_response['response']['PagingInfo']['Bookmark'];
-    }
+//     // Collecting terms info, paged response
+//     $hasMore = true;
+//     $bookmark = '';
+//     $data = [];
+//     while ($hasMore){
+//         $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
+//         foreach($terms_response['response']['Items'] as $item){
+//             $data[]=[
+//                 'Name' => $item['Name'],
+//                 'Code' => $item['Code']
+//             ];
+//         }
+//         $hasMore = $terms_response['response']['PagingInfo']['HasMoreItems'];
+//         $bookmark = $terms_response['response']['PagingInfo']['Bookmark'];
+//     }
 
 
-    // Get the current year and month
-    $currentYear = date('Y');
-    $currentMonth = date('n');
-    $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
+//     // Get the current year and month
+//     $currentYear = date('Y');
+//     $currentMonth = date('n');
+//     $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
 
-    $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/groupcategories/'.$categoryId.'/groups/');
+//     $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/groupcategories/'.$categoryId.'/groups/');
 
-    // Create an array to store the results
-    $terms = [];
+//     // Create an array to store the results
+//     $terms = [];
 
-    foreach ($data as $entry) {
-        $code = $entry['Code'];
+//     foreach ($data as $entry) {
+//         $code = $entry['Code'];
     
-        // Extract year and term from the "Code" field
-        $year = substr($code, 0, 4);
-        $term = substr($code, -2);
-        $termMonths = $months[$term];
+//         // Extract year and term from the "Code" field
+//         $year = substr($code, 0, 4);
+//         $term = substr($code, -2);
+//         $termMonths = $months[$term];
     
-        if ($year > $currentYear) {
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
-            $terms[] = [
-                'Code' => $code,
-                'Name' => $entry['Name'],
-                'groupId' => $groupId
-            ];
-        }elseif($year == $currentYear && $termMonths>=$currentMonth){
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
-            $terms[] = [
-                'Code' => $code,
-                'Name' => $entry['Name'],
-                'groupId' => $groupId
-            ];
-        }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
-            $terms[] = [
-                'Code' => $code,
-                'Name' => $entry['Name'],
-                'groupId' => $groupId
-            ];
-        }
-    }
+//         if ($year > $currentYear) {
+//             $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
+//             $terms[] = [
+//                 'Code' => $code,
+//                 'Name' => $entry['Name'],
+//                 'groupId' => $groupId
+//             ];
+//         }elseif($year == $currentYear && $termMonths>=$currentMonth){
+//             $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
+//             $terms[] = [
+//                 'Code' => $code,
+//                 'Name' => $entry['Name'],
+//                 'groupId' => $groupId
+//             ];
+//         }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
+//             $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
+//             $terms[] = [
+//                 'Code' => $code,
+//                 'Name' => $entry['Name'],
+//                 'groupId' => $groupId
+//             ];
+//         }
+//     }
 
-    return $terms;
-}
+//     return $terms;
+// }
 
-function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
-    $groupId = -1;
-    foreach ($groups as $group) {
-        if ($group["Code"] === $code) {
-            $groupId = $group["GroupId"];
-            break;
-        }
-    }
-    if ($groupId==-1){
-        $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
-    }
-    return  $groupId;
-}
+// function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
+//     $groupId = -1;
+//     foreach ($groups as $group) {
+//         if ($group["Code"] === $code) {
+//             $groupId = $group["GroupId"];
+//             break;
+//         }
+//     }
+//     if ($groupId==-1){
+//         $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
+//     }
+//     return  $groupId;
+// }
 
 ?>
