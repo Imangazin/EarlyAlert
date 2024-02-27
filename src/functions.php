@@ -135,7 +135,9 @@ function getGroups($orgUnitId, $categoryId){
         $year = substr($code, 0, 4);
         $term = substr($code, -2);
         $termMonths = $months->$term;
-        echo $termMonths;
+        echo "Year: ".$year.'<br>';
+        echo "Term: ".$term.'<br>';
+        echo "Term Month: ".$termMonths.'<br>';
         if ($year > $currentYear) {
             $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry->Name, $code);
             array_push($terms, array('Code' => $code, 'Name' => $entry->Name, 'groupId' => $groupId));
