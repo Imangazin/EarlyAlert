@@ -109,16 +109,17 @@ function getGroups($orgUnitId, $categoryId){
     $hasMore = true;
     $bookmark = '';
     $data = array();
-
-    while ($hasMore){
-        $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
-        foreach($terms_response['response']['Items'] as $item){
-            array_push($data, array('Name'=>$item['Name'], 'Code' => $item['Code']));
-        }
-        $hasMore = $terms_response['response']['PagingInfo']['HasMoreItems'];
-        $bookmark = $terms_response['response']['PagingInfo']['Bookmark'];
-    }
-    echo var_dump($data);
+    $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
+    echo var_dump($terms_response);
+    // while ($hasMore){
+    //     $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
+    //     foreach($terms_response['response']['Items'] as $item){
+    //         array_push($data, array('Name'=>$item['Name'], 'Code' => $item['Code']));
+    //     }
+    //     $hasMore = $terms_response['response']['PagingInfo']['HasMoreItems'];
+    //     $bookmark = $terms_response['response']['PagingInfo']['Bookmark'];
+    // }
+    //echo var_dump($data);
    
 
     // // Get the current year and month
