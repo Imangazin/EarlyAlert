@@ -109,61 +109,46 @@ function getGroups($orgUnitId, $categoryId){
     $hasMore = true;
     $bookmark = '';
     $data = array();
-    $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
     while ($hasMore){
-        $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
+        $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=2023&bookmark='.$bookmark);
         foreach($terms_response['response']->Items as $item){
             array_push($data, array('Name'=>$item->Name, 'Code' => $item->Code));
         }
         $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
         $bookmark = $terms_response['response']->PagingInfo->Bookmark;
     }
-    echo var_dump($data);
    
+    // Get the current year and month
+    $currentYear = date('Y');
+    $currentMonth = date('n');
+    $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
 
-    // // Get the current year and month
-    // $currentYear = date('Y');
-    // $currentMonth = date('n');
-    // $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
+    $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/groupcategories/'.$categoryId.'/groups/');
 
-    // $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/groupcategories/'.$categoryId.'/groups/');
+    // Create an array to store the results
+    $terms = array();
 
-    // // Create an array to store the results
-    // $terms = [];
-
-    // foreach ($data as $entry) {
-    //     $code = $entry['Code'];
+    foreach ($data as $entry) {
+        $code = $entry->Code;
     
-    //     // Extract year and term from the "Code" field
-    //     $year = substr($code, 0, 4);
-    //     $term = substr($code, -2);
-    //     $termMonths = $months[$term];
+        // Extract year and term from the "Code" field
+        $year = substr($code, 0, 4);
+        $term = substr($code, -2);
+        $termMonths = $months->$term;
     
-    //     if ($year > $currentYear) {
-    //         $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
-    //         $terms[] = [
-    //             'Code' => $code,
-    //             'Name' => $entry['Name'],
-    //             'groupId' => $groupId
-    //         ];
-    //     }elseif($year == $currentYear && $termMonths>=$currentMonth){
-    //         $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
-    //         $terms[] = [
-    //             'Code' => $code,
-    //             'Name' => $entry['Name'],
-    //             'groupId' => $groupId
-    //         ];
-    //     }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
-    //         $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry['Name'], $code);
-    //         $terms[] = [
-    //             'Code' => $code,
-    //             'Name' => $entry['Name'],
-    //             'groupId' => $groupId
-    //         ];
-    //     }
-    // }
+        if ($year > $currentYear) {
+            $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry->Name, $code);
+            array_push($terms, array('Code' => $code, 'Name' => $entry->Name, 'groupId' => $groupId));
+        }elseif($year == $currentYear && $termMonths>=$currentMonth){
+            $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry->Name, $code);
+            array_push($terms, array('Code' => $code, 'Name' => $entry->Name, 'groupId' => $groupId));
+        }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
+            $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry->Name, $code);
+            array_push($terms, array('Code' => $code, 'Name' => $entry->Name, 'groupId' => $groupId));
+        }
+    }
 
-    // return $terms;
+    return $terms;
 }
 
 function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){

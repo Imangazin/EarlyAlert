@@ -26,8 +26,8 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $orgUnitId = $context->info['context_id'];
 
         $groupCategoryId = getGroupCategoryId($orgUnitId);
-        getGroups($orgUnitId, $groupCategoryId);
-        //$groups = getGroups($orgUnitId, $groupCategoryId);
+        $groups = getGroups($orgUnitId, $groupCategoryId);
+        echo var_dump($groups);
 
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);
