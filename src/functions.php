@@ -102,8 +102,8 @@ function getGroupCategoryId($orgUnitId){
     return $groupCategoryId;
 }
 
-// function getGroups($orgUnitId, $categoryId){
-//     global $config;
+function getGroups($orgUnitId, $categoryId){
+    global $config;
     
 //     // Collecting terms info, paged response
 //     $hasMore = true;
@@ -168,7 +168,7 @@ function getGroupCategoryId($orgUnitId){
     // }
 
     // return $terms;
-// }
+}
 
 function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
     $groupId = -1;
