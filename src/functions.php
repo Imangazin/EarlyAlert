@@ -117,7 +117,7 @@ function getGroups($orgUnitId, $categoryId){
         $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
         $bookmark = $terms_response['response']->PagingInfo->Bookmark;
     }
-   
+    echo var_dump($data);
     // Get the current year and month
     $currentYear = date('Y');
     $currentMonth = date('n');
