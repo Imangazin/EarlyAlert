@@ -117,7 +117,7 @@ function getGroups($orgUnitId, $categoryId){
         $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
         $bookmark = $terms_response['response']->PagingInfo->Bookmark;
     }
-    echo var_dump($data);
+
     // Get the current year and month
     $currentYear = date('Y');
     $currentMonth = date('n');
@@ -130,14 +130,10 @@ function getGroups($orgUnitId, $categoryId){
 
     foreach ($data as $entry) {
         $code = $entry['Code'];
-        echo "Code: ".$code.'<br>';
         // Extract year and term from the "Code" field
         $year = substr($code, 0, 4);
         $term = substr($code, -2);
         $termMonths = $months->$term;
-        echo "Year: ".$year.'<br>';
-        echo "Term: ".$term.'<br>';
-        echo "Term Month: ".$termMonths.'<br>';
         if ($year > $currentYear) {
             $groupId = getGroupId($orgUnitId, $categoryId, $groups, $entry->Name, $code);
             array_push($terms, array('Code' => $code, 'Name' => $entry->Name, 'groupId' => $groupId));
