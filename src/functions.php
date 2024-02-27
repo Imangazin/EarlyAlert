@@ -102,14 +102,13 @@ function getGroupCategoryId($orgUnitId){
     return $groupCategoryId;
 }
 
-function getGroups($orgUnitId, $categoryId){
-    global $config;
+// function getGroups($orgUnitId, $categoryId){
+//     global $config;
     
-    // Collecting terms info, paged response
-    $hasMore = true;
-    $bookmark = '';
-    $data = [];
-    echo "Test";
+//     // Collecting terms info, paged response
+//     $hasMore = true;
+//     $bookmark = '';
+//     $data = [];
     //echo '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark;
     // while ($hasMore){
     //     $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
@@ -169,7 +168,7 @@ function getGroups($orgUnitId, $categoryId){
     // }
 
     // return $terms;
-}
+// }
 
 function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
     $groupId = -1;
