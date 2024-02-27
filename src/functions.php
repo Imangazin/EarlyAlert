@@ -135,13 +135,13 @@ function getGroups($orgUnitId, $categoryId){
         $term = substr($code, -2);
         $termMonths = $months[$term];
         if ($year > $currentYear) {
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response, $entry['Name'], $code);
+            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
             array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
         }elseif($year == $currentYear && $termMonths>=$currentMonth){
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response, $entry['Name'], $code);
+            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
             array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
         }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response, $entry['Name'], $code);
+            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
             array_push($terms, array('Code' => $code, 'Name' =>$entry['Name'], 'groupId' => $groupId));
         }
     }
