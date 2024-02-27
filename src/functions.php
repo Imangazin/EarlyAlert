@@ -152,8 +152,8 @@ function getGroups($orgUnitId, $categoryId){
 function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
     $groupId = -1;
     foreach ($groups as $group) {
-        if ($group->Code === $code) {
-            $groupId = $group->GroupId;
+        if ($group['Code'] === $code) {
+            $groupId = $group['GroupId'];
             break;
         }
     }
