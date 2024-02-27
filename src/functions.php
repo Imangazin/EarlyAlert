@@ -124,6 +124,7 @@ function getGroups($orgUnitId, $categoryId){
     $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
 
     $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/groupcategories/'.$categoryId.'/groups/');
+    echo "CategoryId: ". $categoryId.'<br>';
     echo var_dump($groups_response);
 
     // Create an array to store the results
