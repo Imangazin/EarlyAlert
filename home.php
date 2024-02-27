@@ -43,7 +43,7 @@
         <select class="form-select" id="terms" required name="terms" >
           <option value="" disabled selected>Select term</option>';
         foreach($groups as $group){
-            $termsSelect .= '<option value="'.$group->groupId.'">'.$group->Name.'</option>';
+            $termsSelect .= '<option value="'.$group['groupId'].'">'.$group['Name'].'</option>';
         }
         $termsSelect .= '</select></div>';
 
