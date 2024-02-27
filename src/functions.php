@@ -112,7 +112,7 @@ function getGroups($orgUnitId, $categoryId){
     $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
     while ($hasMore){
         $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
-        foreach($terms_response['response']['Items'] as $item){
+        foreach($terms_response['response']->Items as $item){
             array_push($data, array('Name'=>$item['Name'], 'Code' => $item['Code']));
         }
         $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
