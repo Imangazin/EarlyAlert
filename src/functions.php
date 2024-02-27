@@ -133,7 +133,7 @@ function getGroups($orgUnitId, $categoryId){
         // Extract year and term from the "Code" field
         $year = substr($code, 0, 4);
         $term = substr($code, -2);
-        $termMonths = $months->$term;
+        $termMonths = $months[$term];
         echo "Year: ".$year.'  ';
         echo "Term: ".$term.'  ';
         echo "Term Month: ".$termMonths.'<br>';
