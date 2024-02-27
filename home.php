@@ -39,18 +39,18 @@
         }
         $advisorSelect .= '</select></div>';
 
-        // $termsSelect = '<div class="mb-3">
-        // <select class="form-select" id="terms" required name="terms" >
-        //   <option value="" disabled selected>Select term</option>';
-        // foreach($groups as $group){
-        //     $termsSelect .= '<option value="'.$group->groupId.'">'.$group->Name.'</option>';
-        // }
-        // $termsSelect .= '</select></div>';
+        $termsSelect = '<div class="mb-3">
+        <select class="form-select" id="terms" required name="terms" >
+          <option value="" disabled selected>Select term</option>';
+        foreach($groups as $group){
+            $termsSelect .= '<option value="'.$group->groupId.'">'.$group->Name.'</option>';
+        }
+        $termsSelect .= '</select></div>';
 
 
         if (!$hasAuditor) {
           echo $advisorSelect; 
-          //echo $termsSelect;
+          echo $termsSelect;
         }
       ?>
       <div class="mb-3">
