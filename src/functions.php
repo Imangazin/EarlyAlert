@@ -167,18 +167,18 @@ function getGroupCategoryId($orgUnitId){
 //     return $terms;
 // }
 
-// function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
-//     $groupId = -1;
-//     foreach ($groups as $group) {
-//         if ($group["Code"] === $code) {
-//             $groupId = $group["GroupId"];
-//             break;
-//         }
-//     }
-//     if ($groupId==-1){
-//         $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
-//     }
-//     return  $groupId;
-// }
+function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
+    $groupId = -1;
+    foreach ($groups as $group) {
+        if ($group["Code"] === $code) {
+            $groupId = $group["GroupId"];
+            break;
+        }
+    }
+    if ($groupId==-1){
+        $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
+    }
+    return  $groupId;
+}
 
 ?>
