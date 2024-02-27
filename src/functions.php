@@ -108,7 +108,7 @@ function getGroups($orgUnitId, $categoryId){
     // Collecting terms info, paged response
     $hasMore = true;
     $bookmark = '';
-    $data = [];
+    $data = array();
     //echo '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark;
     // while ($hasMore){
     //     $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=20&bookmark='.$bookmark);
