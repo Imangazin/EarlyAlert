@@ -22,7 +22,7 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
         if ($response['Code']==200) {
             $groupCategoryId = getGroupCategoryId($orgUnitId);
             $groupId = $_POST["terms"];
-            enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId);
+            enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $auditeeId);
             echo 'Your advisor have access to all course progresses.';
         }
         else {
@@ -36,7 +36,7 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
         if ($response['Code']==200) {
             $groupCategoryId = getGroupCategoryId($orgUnitId);
             $groupId = $_POST["terms"];
-            unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId);
+            unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $auditeeId);
             echo 'Your advisor(s) no longer have access to all course progresses.';
         }
         else {
