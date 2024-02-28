@@ -9,13 +9,20 @@ if(empty($session_id) && !empty($_POST["session_id"])) session_id($_POST["sessio
 session_start();
 
 if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
-    $user_id = $_SESSION['_basic_lti_context']['user_id'];
-    preg_match('/_(\d+)/', $user_id, $matches);
+    
+    $orgUnitId = $_SESSION['_basic_lti_context']['context_id'];
+
+    $userId = $_SESSION['_basic_lti_context']['user_id'];
+    preg_match('/_(\d+)/', $userId, $matches);
     $auditeeId = (bool) $matches ? $matches[1] : -1;
+    
     if (isset($_POST["advisor"])){
         $auditorId = $_POST["advisor"];
         $response = addDeleteAuditor("POST",$auditorId, $auditeeId);
         if ($response['Code']==200) {
+            $groupCategoryId = getGroupCategoryId($orgUnitId);
+            $groupId = $_POST["terms"];
+            enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId);
             echo 'Your advisor have access to all course progresses.';
         }
         else {
@@ -27,6 +34,9 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
             $response = addDeleteAuditor("DELETE",$auditorId, $auditeeId);
         }    
         if ($response['Code']==200) {
+            $groupCategoryId = getGroupCategoryId($orgUnitId);
+            $groupId = $_POST["terms"];
+            unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId);
             echo 'Your advisor(s) no longer have access to all course progresses.';
         }
         else {
