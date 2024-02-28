@@ -163,4 +163,17 @@ function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
     return  $groupId;
 }
 
+
+function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
+    global $config;
+    $data = array(
+        "UserId" => $userId
+    );
+    $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/', $data);
+}
+
+function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
+    global $config;
+    $response = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId);
+}
 ?>
