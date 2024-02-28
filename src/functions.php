@@ -170,10 +170,22 @@ function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
         "UserId" => $userId
     );
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/', $data);
+    if ($response['Code']==200) {
+        echo "enrolled";
+    }
+    else {
+        echo $response['Code'];
+    }
 }
 
 function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
     $response = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId);
+    if ($response['Code']==200) {
+        echo "enrolled";
+    }
+    else {
+        echo $response['Code'];
+    }
 }
 ?>
