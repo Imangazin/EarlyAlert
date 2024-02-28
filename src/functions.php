@@ -171,10 +171,10 @@ function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     );
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/', $data);
     if ($response['Code']==200) {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/';
+        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
     }
     else {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/';
+        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
     }
 }
 
@@ -182,10 +182,10 @@ function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
     $response = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId);
     if ($response['Code']==200) {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/';
+        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
     }
     else {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/';
+        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
     }
 }
 ?>
