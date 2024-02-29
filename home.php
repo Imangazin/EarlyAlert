@@ -24,7 +24,7 @@
 <body style="font-family: 'Lato', sans-serif;color: #202122;">
   <div class="container">
     <?php 
-    $message = $hasAuditor ? "Your advisor(s) can see your course progress for current semester.<br>":"Please consent to give your advisor access to your course progress for current semester.<br>";
+    $message = $hasAuditor ? "Your advisor(s) can see your course progress for current ".$currentTerm." semester.<br>":"Please consent to give your advisor access to your course progress for current ".$currentTerm." semester.<br>";
     echo $message; 
     ?>
     <form method="post" id="earlyAlertForm">
