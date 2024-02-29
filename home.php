@@ -30,6 +30,8 @@
     <form method="post" id="earlyAlertForm">
       <input type="hidden" name="session_id" value='<?php echo session_id(); ?>'>
       <input type ="hidden" name="myAuditors" value='<?php echo $myAuditors; ?>'>
+      <input type ="hidden" name="groupCategoryId" value='<?php echo $groupCategoryId; ?>'>
+      <input type ="hidden" name="groupId" value='<?php echo $groupId; ?>'>
       <?php 
         $advisorSelect = '<div class="mb-3">
           <select class="form-select" id="advisor" required name="advisor" >
@@ -39,18 +41,8 @@
         }
         $advisorSelect .= '</select></div>';
 
-        $termsSelect = '<div class="mb-3">
-        <select class="form-select" id="terms" required name="terms" >
-          <option value="" disabled selected>Select term</option>';
-        foreach($groups as $group){
-            $termsSelect .= '<option value="'.$group['groupId'].'">'.$group['Name'].'</option>';
-        }
-        $termsSelect .= '</select></div>';
-
-
         if (!$hasAuditor) {
           echo $advisorSelect; 
-          echo $termsSelect;
         }
       ?>
       <div class="mb-3">

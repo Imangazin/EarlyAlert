@@ -34,11 +34,11 @@ function getCurrentAcademicTerm() {
     $currentMonth = date('n');
     $currentYear = date('Y');
     if ($currentMonth >= 1 && $currentMonth <= 4) {
-        return "Winter " . $currentYear;
+        return "Winter-".$currentYear;
     } elseif ($currentMonth >= 5 && $currentMonth <= 8) {
-        return "Spring and Summer " . $currentYear;
+        return "Summer-" . $currentYear;
     } else {
-        return "Fall " . $currentYear;
+        return "Fall-" . $currentYear;
     }
 }
 
@@ -74,11 +74,11 @@ function createGroupCategory($orgUnitId){
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/', $data);
 }
 
-function createGroup($orgUnitId, $groupCategoryId, $name, $code){
+function createGroup($orgUnitId, $groupCategoryId, $currentTerm){
     global $config;
     $data = array(
-        "Name" => $name,
-        "Code" => $code,
+        "Name" => $currentTerm,
+        "Code" => $currentTerm,
         "Description" => array("Content"=>"", "Type"=>"Html")
     );
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/', $data);
@@ -102,67 +102,83 @@ function getGroupCategoryId($orgUnitId){
     return $groupCategoryId;
 }
 
-function getGroups($orgUnitId, $categoryId){
-    global $config;
+// function getGroups($orgUnitId, $categoryId){
+//     global $config;
     
-    // Collecting terms info, paged response
-    $hasMore = true;
-    $bookmark = '';
-    $data = array();
-    while ($hasMore){
-        $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=2023&bookmark='.$bookmark);
-        foreach($terms_response['response']->Items as $item){
-            array_push($data, array('Name'=>$item->Name, 'Code' => $item->Code));
-        }
-        $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
-        $bookmark = $terms_response['response']->PagingInfo->Bookmark;
-    }
+//     // Collecting terms info, paged response
+//     $hasMore = true;
+//     $bookmark = '';
+//     $data = array();
+//     while ($hasMore){
+//         $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=2023&bookmark='.$bookmark);
+//         foreach($terms_response['response']->Items as $item){
+//             array_push($data, array('Name'=>$item->Name, 'Code' => $item->Code));
+//         }
+//         $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
+//         $bookmark = $terms_response['response']->PagingInfo->Bookmark;
+//     }
 
-    // Get the current year and month
-    $currentYear = date('Y');
-    $currentMonth = date('n');
-    $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
+//     // Get the current year and month
+//     $currentYear = date('Y');
+//     $currentMonth = date('n');
+//     $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
 
-    $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/');
+//     $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/');
 
-    // Create an array to store the results
-    $terms = array();
+//     // Create an array to store the results
+//     $terms = array();
 
-    foreach ($data as $entry) {
-        $code = $entry['Code'];
-        // Extract year and term from the "Code" field
-        $year = substr($code, 0, 4);
-        $term = substr($code, -2);
-        $termMonths = $months[$term];
-        if ($year > $currentYear) {
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
-            array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
-        }elseif($year == $currentYear && $termMonths>=$currentMonth){
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
-            array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
-        }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
-            $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
-            array_push($terms, array('Code' => $code, 'Name' =>$entry['Name'], 'groupId' => $groupId));
-        }
-    }
+//     foreach ($data as $entry) {
+//         $code = $entry['Code'];
+//         // Extract year and term from the "Code" field
+//         $year = substr($code, 0, 4);
+//         $term = substr($code, -2);
+//         $termMonths = $months[$term];
+//         if ($year > $currentYear) {
+//             $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
+//             array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
+//         }elseif($year == $currentYear && $termMonths>=$currentMonth){
+//             $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
+//             array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
+//         }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
+//             $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
+//             array_push($terms, array('Code' => $code, 'Name' =>$entry['Name'], 'groupId' => $groupId));
+//         }
+//     }
 
-    return $terms;
-}
+//     return $terms;
+// }
 
-function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
+// function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
+//     $groupId = -1;
+//     foreach ($groups as $group) {
+//         if ($group->Code == $code) {
+//             $groupId = $group->GroupId;
+//             return  $groupId;
+//         }
+//     }
+//     if ($groupId==-1){
+//         $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
+//     }
+//     return  $groupId;
+// }
+
+
+function getGroupId($orgUnitId, $categoryId, $currentTerm){
+    global $config;
     $groupId = -1;
-    foreach ($groups as $group) {
-        if ($group->Code == $code) {
+    $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/');
+    foreach ($groups['response'] as $group) {
+        if ($group->Code == $currentTerm) {
             $groupId = $group->GroupId;
             return  $groupId;
         }
     }
     if ($groupId==-1){
-        $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
+        $groupId = createGroup($orgUnitId, $categoryId, $currentTerm);
     }
     return  $groupId;
 }
-
 
 function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
@@ -170,22 +186,10 @@ function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
         "UserId" => $userId
     );
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/', $data);
-    if ($response['Code']==200) {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
-    }
-    else {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
-    }
 }
 
 function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
     $response = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId);
-    if ($response['Code']==200) {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
-    }
-    else {
-        echo '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId;
-    }
 }
 ?>
