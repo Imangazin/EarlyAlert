@@ -31,8 +31,8 @@ function addDeleteAuditor($verb, $auditorId, $auditeeId){
 }
 
 function getCurrentAcademicTerm() {
-    //$currentMonth = date('n');
-    $currentMonth = 10;
+    $currentMonth = date('n');
+    //$currentMonth = 10;
     $currentYear = date('Y');
     if ($currentMonth >= 1 && $currentMonth <= 4) {
         return "Winter-".$currentYear;
@@ -201,6 +201,7 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $audi
     global $config;
     // unenroll users before  deleting the group.
     $myAuditors = explode(',', $auditors);
+    echo 'enrollments size: '.sizeof($enrollments). '.  auditors size: '. sizeof($auditors).'<br>';
     foreach ($enrollments as $userId){
         foreach ($myAuditors as $auditorId) {
             echo 'auditor: '.$auditorId.'.  auditeeId: '.$userId.'<br>';
