@@ -5,7 +5,7 @@ require_once("src/functions.php");
 require_once 'ims-blti/blti.php';
 
 function isChromeOrEdge() {
-    $userAgent = $_SERVER['HTTP__AGENT'];
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
     echo  "User agent: ". $userAgent . "<br>";
     return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
 }
