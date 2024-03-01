@@ -5,6 +5,7 @@ require_once("doValence.php");
 
 function isChromeOrEdge() {
     $userAgent = $_SERVER['HTTP__AGENT'];
+    echo  "User agent: ". $userAgent . "<br>";
     return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
 }
 
