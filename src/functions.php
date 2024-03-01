@@ -31,8 +31,8 @@ function addDeleteAuditor($verb, $auditorId, $auditeeId){
 }
 
 function getCurrentAcademicTerm() {
-    //$currentMonth = date('n');
-    $currentMonth = 10;
+    $currentMonth = date('n');
+    //$currentMonth = 10;
     $currentYear = date('Y');
     if ($currentMonth >= 1 && $currentMonth <= 4) {
         return "Winter-".$currentYear;
