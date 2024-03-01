@@ -25,14 +25,14 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $userId = preg_match('/_(\d+)/', $context->info['user_id'], $matches) ? $matches[1] : '-1';
         $orgUnitId = $context->info['context_id'];
 
-        $groupCategoryId = getGroupCategoryId($orgUnitId);
-        $currentTerm = getCurrentAcademicTerm();
-        $groupId = getGroupId($orgUnitId, $groupCategoryId, $currentTerm);
-
         $hasAuditor = hasAuditor($userId);
         $advisors = getAdvisors($orgUnitId);
         $myAuditors = getMyAuditors($userId);
-        
+
+        $groupCategoryId = getGroupCategoryId($orgUnitId);
+        $currentTerm = getCurrentAcademicTerm();
+        $groupId = getGroupId($orgUnitId, $groupCategoryId, $currentTerm, $myAuditors);
+
         include 'home.php';
     }
 }

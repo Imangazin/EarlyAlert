@@ -44,12 +44,13 @@ function getCurrentAcademicTerm() {
 
 function getMyAuditors($auditeeId){
     global $config;
-    $result ='';
+    $result = "";
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditees/'.$auditeeId); 
     if (!empty($response['response']->Auditors)){
         forEach ($response['response']->Auditors as $auditor){
-            $result .= $auditor->AuditorId;
+            $result .= $auditor->AuditorId . ",";
         }
+        $result = rtrim($result,",");
     }
     return $result;
 }
@@ -164,14 +165,16 @@ function getGroupCategoryId($orgUnitId){
 // }
 
 
-function getGroupId($orgUnitId, $categoryId, $currentTerm){
+function getGroupId($orgUnitId, $categoryId, $currentTerm, $myAuditors){
     global $config;
     $groupId = -1;
     $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/');
     foreach ($groups['response'] as $group) {
         if ($group->Code == $currentTerm) {
             $groupId = $group->GroupId;
-            return  $groupId;
+        }
+        else {
+            deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments, $myAuditors);
         }
     }
     if ($groupId==-1){
@@ -191,5 +194,18 @@ function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
 function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
     $response = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId);
+}
+
+function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $auditors){
+    global $config;
+    // unenroll users before  deleting the group.
+    $myAuditors = explode(',', $auditor);
+    foreach ($enrollments as $userId){
+        foreach ($myAuditors as $auditorId) {
+            $response = addDeleteAuditor("DELETE",$auditorId, $userId);
+        }    
+    }
+
+    $deleteGroup = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/'.$groupId);
 }
 ?>
