@@ -27,13 +27,12 @@ function getAdvisors($orgUnitId){
 
 function addDeleteAuditor($verb, $auditorId, $auditeeId){
     global $config;
-    echo 'auditor: '.$auditorId.'.  auditeeId: '.$auditeeId.'<br>';
     return doValenceRequest($verb, '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditors/'.$auditorId.'/auditees/', $auditeeId); 
 }
 
 function getCurrentAcademicTerm() {
     //$currentMonth = date('n');
-    $currentMonth = 5;
+    $currentMonth = 10;
     $currentYear = date('Y');
     if ($currentMonth >= 1 && $currentMonth <= 4) {
         return "Winter-".$currentYear;
@@ -204,10 +203,11 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $audi
     $myAuditors = explode(',', $auditor);
     foreach ($enrollments as $userId){
         foreach ($myAuditors as $auditorId) {
+            echo 'auditor: '.$auditorId.'.  auditeeId: '.$userId.'<br>';
             $response = addDeleteAuditor("DELETE",$auditorId, $userId);
         }    
     }
-
+    echo 'auditor: '.$auditorId.'.  auditeeId: '.$auditeeId.'<br>';
     $deleteGroup = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/'.$groupId);
 }
 ?>
