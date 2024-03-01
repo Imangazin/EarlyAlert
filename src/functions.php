@@ -200,7 +200,7 @@ function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
 function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $auditors){
     global $config;
     // unenroll users before  deleting the group.
-    $myAuditors = explode(',', $auditor);
+    $myAuditors = explode(',', $auditors);
     foreach ($enrollments as $userId){
         foreach ($myAuditors as $auditorId) {
             echo 'auditor: '.$auditorId.'.  auditeeId: '.$userId.'<br>';
