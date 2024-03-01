@@ -27,6 +27,7 @@ function getAdvisors($orgUnitId){
 
 function addDeleteAuditor($verb, $auditorId, $auditeeId){
     global $config;
+    echo 'auditor: '.$auditorId.'.  auditeeId: '.$auditeeId.'<br>';
     return doValenceRequest($verb, '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditors/'.$auditorId.'/auditees/', $auditeeId); 
 }
 
