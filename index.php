@@ -15,6 +15,7 @@ $currentCookieParams = session_get_cookie_params();
 if (isChromeOrEdge()) echo "it is chrome <br>"; else echo 'it is not chrome <br>';
 
 if (isChromeOrEdge()) $cookie_loation = $cookie_loation . ' partitioned;';
+echo  "Location: ".$cookie_loation."<br>" ;
 session_set_cookie_params(
     $currentCookieParams["lifetime"],
     $cookie_loation,
