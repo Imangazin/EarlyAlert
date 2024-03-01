@@ -4,6 +4,11 @@ require_once("src/functions.php");
 // Load up the LTI Support code
 require_once 'ims-blti/blti.php';
 
+function isChromeOrEdge() {
+    $userAgent = $_SERVER['HTTP__AGENT'];
+    echo  "User agent: ". $userAgent . "<br>";
+    return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
+}
 //setting user sessions
 $currentCookieParams = session_get_cookie_params();
 
