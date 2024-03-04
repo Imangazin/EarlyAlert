@@ -9,7 +9,7 @@ $session_id = session_id();
 
 //if($session_id=="" && !empty($_POST["session_id"])) {session_id($_POST["session_id"]); echo "Using form session";} else echo "Using real session";
 
-if (isSafari()) session_id($_POST["session_id"]);
+if (isSafari()) {session_id($_POST["session_id"]); echo "It is safari  ";}
 echo "session_is: ".$session_id ."form session id: ". $_POST["session_id"];
 
 if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
