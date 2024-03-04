@@ -10,18 +10,23 @@ function isChromeOrEdge() {
     return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
 }
 //setting user sessions
-$currentCookieParams = session_get_cookie_params();
+// $currentCookieParams = session_get_cookie_params();
 
-if (isChromeOrEdge()) $cookie_loation = $cookie_loation . ' Partitioned;';
-session_set_cookie_params(
-    $currentCookieParams["lifetime"],
-    $cookie_loation,
-    $_SERVER['HTTP_HOST'],
-    "1",
-    "1"
-);
-
+//if (isChromeOrEdge()) $cookie_loation = $cookie_loation . ' Partitioned;';
+// session_set_cookie_params(
+//     $currentCookieParams["lifetime"],
+//     $cookie_loation,
+//     $_SERVER['HTTP_HOST'],
+//     "1",
+//     "1"
+// );
 session_start();
+$id = session_id();
+if (isChromeOrEdge())
+    header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; SameSite=None; Partitioned;");
+else
+    header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; SameSite=None;");
+
 
 //All of the LTI Launch data gets passed through in $_REQUEST
 if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
