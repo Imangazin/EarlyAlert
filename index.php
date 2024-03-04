@@ -4,27 +4,14 @@ require_once("src/functions.php");
 // Load up the LTI Support code
 require_once 'ims-blti/blti.php';
 
-
-//setting user sessions
-// $currentCookieParams = session_get_cookie_params();
-
-//if (isChromeOrEdge()) $cookie_loation = $cookie_loation . ' Partitioned;';
-// session_set_cookie_params(
-//     $currentCookieParams["lifetime"],
-//     $cookie_loation,
-//     $_SERVER['HTTP_HOST'],
-//     "1",
-//     "1"
-// );
+// Set session cookies based on browser
 session_start();
 $id = session_id();
 if (isChromeOrEdge()){
     header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None; Partitioned;");
-    echo "It is chrome or edge: ".$_SERVER['HTTP_USER_AGENT'];
 }
 else {
     header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None;");
-    echo "It is not chrome: ".$_SERVER['HTTP_USER_AGENT'];
 }
 
 
