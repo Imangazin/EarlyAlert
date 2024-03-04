@@ -12,10 +12,7 @@ function isChromeOrEdge() {
 //setting user sessions
 $currentCookieParams = session_get_cookie_params();
 
-if (isChromeOrEdge()) echo "it is chrome <br>"; else echo 'it is not chrome <br>';
-
 if (isChromeOrEdge()) $cookie_loation = $cookie_loation . ' Partitioned;';
-echo  "host: ".$_SERVER['HTTP_HOST']."<br>" ;
 session_set_cookie_params(
     $currentCookieParams["lifetime"],
     $cookie_loation,
