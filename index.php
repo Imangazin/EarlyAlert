@@ -22,10 +22,14 @@ function isChromeOrEdge() {
 // );
 session_start();
 $id = session_id();
-if (isChromeOrEdge())
+if (isChromeOrEdge()){
     header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; SameSite=None; Partitioned;");
-else
+    echo "It is chrome or edge: ".$_SERVER['HTTP_USER_AGENT'];
+}
+else {
     header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; SameSite=None;");
+    echo "It is not chrome: ".$_SERVER['HTTP_USER_AGENT'];
+}
 
 
 //All of the LTI Launch data gets passed through in $_REQUEST
