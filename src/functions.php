@@ -3,6 +3,12 @@
 require_once("info.php");
 require_once("doValence.php");
 
+function isChromeOrEdge() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    //echo  "User agent: ". $userAgent . "<br>";
+    return (strpos($userAgent,'Chrome') !== false || strpos($user, 'Edg') !== false);
+}
+
 function hasAuditor($userId){
     global $config;
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditees/'.$userId);
