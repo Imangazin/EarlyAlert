@@ -8,7 +8,7 @@ require_once("src/info.php");
 // echo $session_id;
 // if(empty($session_id) && !empty($_POST["session_id"])) {session_id($_POST["session_id"]); echo "Using form session";} else echo "Using real session";
 
-if (!isChromeOrEdge()) session_id($_POST["session_id"]);
+//if (!isChromeOrEdge()) session_id($_POST["session_id"]);
 session_start();
 
 if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
