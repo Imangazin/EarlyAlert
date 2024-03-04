@@ -23,7 +23,7 @@ if (isChromeOrEdge()){
     echo "It is chrome or edge: ".$_SERVER['HTTP_USER_AGENT'];
 }
 else {
-    header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None;");
+    header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=Lax;");
     echo "It is not chrome: ".$_SERVER['HTTP_USER_AGENT'];
 }
 
