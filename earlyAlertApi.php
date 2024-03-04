@@ -3,7 +3,7 @@ require_once("src/functions.php");
 require_once("src/info.php");
 
 // Use session_id that is passed as hidden form data for Safari browser
-if (isSafari()) {session_id($_POST["session_id"]); echo "It is safari  ";}
+if (isSafari()) session_id($_POST["session_id"]);
 
 session_start();
 
