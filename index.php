@@ -7,12 +7,13 @@ require_once 'ims-blti/blti.php';
 // Set session cookies based on browser
 session_start();
 $id = session_id();
-if (isChromeOrEdge()){
-    header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None; Partitioned;");
-}
-else {
-    header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None;");
-}
+header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None; Partitioned;");
+// if (!isSafari()){
+//     header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None; Partitioned;");
+// }
+// else {
+//     header("Set-Cookie: PHPSESSID=$id; Secure; Path=$cookie_loation; HttpOnly; SameSite=None;");
+// }
 
 
 //All of the LTI Launch data gets passed through in $_REQUEST

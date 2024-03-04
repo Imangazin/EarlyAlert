@@ -3,6 +3,10 @@
 require_once("info.php");
 require_once("doValence.php");
 
+function isSafari() {
+    return (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') && !strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome'));
+}
+
 function isChromeOrEdge() {
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
     //echo  "User agent: ". $userAgent . "<br>";
