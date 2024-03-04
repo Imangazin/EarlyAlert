@@ -7,8 +7,6 @@ if (isSafari()) session_id($_POST["session_id"]);
 
 session_start();
 
-echo "session_is: ".$session_id ."form session id: ". $_POST["session_id"];
-
 if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
     
     $orgUnitId = $_SESSION['_basic_lti_context']['context_id'];
