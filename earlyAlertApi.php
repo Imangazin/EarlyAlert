@@ -16,13 +16,16 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
     $auditeeId = (bool) $matches ? $matches[1] : -1;
     
     if (isset($_POST["advisor"])){
-        $auditorId = $_POST["advisor"];
+        $advisorInfo = explode( "-",$_POST["advisor"]);
+        $auditorId = $advisorInfo[0];
+        $auditorEmail = $advisorInfo[1];
         $response = addDeleteAuditor("POST",$auditorId, $auditeeId);
         if ($response['Code']==200) {
             $groupCategoryId = $_POST["groupCategoryId"];
             $groupId = $_POST["groupId"];
             enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $auditeeId);
-            echo 'Your advisor have access to all course progresses.';
+            sendEmail($_SESSION['_basic_lti_context']['lis_person_name_full'], $auditorEmail);
+            echo $consent_feedback ;
         }
         else {
             echo 'Sorry, a technical error occurred, please contact '.$supportEmail.' for support.';
@@ -36,7 +39,7 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
             $groupCategoryId = $_POST["groupCategoryId"];
             $groupId = $_POST["groupId"];
             unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $auditeeId);
-            echo 'Your advisor(s) no longer have access to all course progresses.';
+            echo $cancel_feedback ;
         }
         else {
             echo 'Sorry, a technical error occurred, please contact '.$supportEmail.' for support.';

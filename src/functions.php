@@ -3,32 +3,40 @@
 require_once("info.php");
 require_once("doValence.php");
 
+// Checks user's browser, returns true if it is Safari
 function isSafari() {
     return (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') && !strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome'));
 }
 
+//returns true if user has auditors
 function hasAuditor($userId){
     global $config;
     $response = doValenceRequest('GET', '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditees/'.$userId);
     if (count($response['response']->Auditors)==0) return false; else return true; 
 }
 
+// Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
 function getAdvisors($orgUnitId){
     global $config;
     $qparams = array("roleId"=>109);
     $response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/enrollments/orgUnits/'.$orgUnitId.'/users/?roleId=109');
     $advisors = array();
     foreach($response['response']->Items as $advisor){
-        $advisors[$advisor->User->Identifier] = $advisor->User->DisplayName;
+        $id = $advisor->User->Identifier;
+        $fullName = $advisor->User->DisplayName;
+        $email = $advisor->User->EmailAddress;
+        $advisors[$id.'-'.$email] = $fullName;
     }
     return $advisors;
 }
 
+//add auditor or deletes  an auditor from the user's auditor list
 function addDeleteAuditor($verb, $auditorId, $auditeeId){
     global $config;
     return doValenceRequest($verb, '/d2l/api/le/'.$config['LE_Version'].'/auditing/auditors/'.$auditorId.'/auditees/', $auditeeId); 
 }
 
+//returns current academic turn
 function getCurrentAcademicTerm() {
     $currentMonth = date('n');
     //$currentMonth = 10;
@@ -42,6 +50,7 @@ function getCurrentAcademicTerm() {
     }
 }
 
+// returns user's auditors as a string with comma delimeter
 function getMyAuditors($auditeeId){
     global $config;
     $result = "";
@@ -55,6 +64,7 @@ function getMyAuditors($auditeeId){
     return $result;
 }
 
+//creates a group category in LMS
 function createGroupCategory($orgUnitId){
     global $config;
     $data = array(
@@ -75,6 +85,7 @@ function createGroupCategory($orgUnitId){
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/', $data);
 }
 
+//creates a group in the LMS
 function createGroup($orgUnitId, $groupCategoryId, $currentTerm){
     global $config;
     $data = array(
@@ -86,6 +97,7 @@ function createGroup($orgUnitId, $groupCategoryId, $currentTerm){
     return $response->GroupId;
 }
 
+//Returns group categotyId with "Early Alert" string in its name, if not found calls create function
 function getGroupCategoryId($orgUnitId){
     global $config;
     $groupCategoryId = -1;
@@ -102,6 +114,9 @@ function getGroupCategoryId($orgUnitId){
     }
     return $groupCategoryId;
 }
+
+//Earlier version of the tool that creates groups based on the available semesters in the LMS
+//left here in case we would like to use it
 
 // function getGroups($orgUnitId, $categoryId){
 //     global $config;
@@ -164,7 +179,10 @@ function getGroupCategoryId($orgUnitId){
 //     return  $groupId;
 // }
 
-
+//returns group id based on the currrent term.
+//checks if there is a group for a current term
+//if there is none, then creates one
+//if other groups found, then calls delete 
 function getGroupId($orgUnitId, $categoryId, $currentTerm, $myAuditors){
     global $config;
     $groupId = -1;
@@ -183,6 +201,8 @@ function getGroupId($orgUnitId, $categoryId, $currentTerm, $myAuditors){
     return  $groupId;
 }
 
+
+//enrolls user into the group
 function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
     $data = array(
@@ -191,11 +211,13 @@ function enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     $response = doValenceRequest('POST', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/', $data);
 }
 
+//unenrolls user from the group
 function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
     global $config;
     $response = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId.'/enrollments/'.$userId);
 }
 
+//deletes a group, and removes auditors from the all users in the group
 function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $auditors){
     global $config;
     // unenroll users before  deleting the group.
@@ -209,4 +231,16 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $audi
     echo 'auditor: '.$auditorId.'.  auditeeId: '.$auditeeId.'<br>';
     $deleteGroup = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/'.$groupId);
 }
+
+//sends an email notification to the advisor
+function sendEmail($auditeeName, $sendTo){
+    global $subject, $emailTemplate;
+    $message = str_replace('username', $auditeeName, $emailTemplate);
+    $headers = "From: $supportEmail\r\n";
+    $headers .= "Content-Type: text/plain;charset=utf-8\r\n";
+
+    $mail_success = mail($sendTo, $subject, $message, $headers);
+}
+
 ?>
+w

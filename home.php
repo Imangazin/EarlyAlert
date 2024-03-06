@@ -23,10 +23,7 @@
 </head>
 <body style="font-family: 'Lato', sans-serif;color: #202122;">
   <div class="container">
-    <?php 
-    $message = $hasAuditor ? "Your advisor can see your course progress for current ".$currentTerm." semester.<br>":"Please consent to give your advisor access to your course progress for current ".$currentTerm." semester.<br>";
-    echo $message; 
-    ?>
+    <?php echo $message; ?>
     <form method="post" id="earlyAlertForm">
       <input type="hidden" name="session_id" value='<?php echo session_id(); ?>'>
       <input type ="hidden" name="myAuditors" value='<?php echo $myAuditors; ?>'>
@@ -40,7 +37,6 @@
             $advisorSelect .= "<option value=\"$advisorId\">$advisorName</option>";
         }
         $advisorSelect .= '</select></div>';
-
         if (!$hasAuditor) {
           echo $advisorSelect; 
         }
