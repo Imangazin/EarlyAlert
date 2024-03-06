@@ -29,6 +29,7 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
         }
         else {
             echo 'Sorry, a technical error occurred, please contact '.$supportEmail.' for support.';
+            echo $response['response'];
         }
     } else{
         $myAuditors = explode(',', $_POST["myAuditors"]);
