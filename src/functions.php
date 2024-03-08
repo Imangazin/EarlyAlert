@@ -234,13 +234,13 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $audi
 
 //sends an email notification to the advisor
 function sendEmail($auditeeName, $sendTo){
-    global $subject, $emailTemplate, $supportEmail;
+    global $subject, $email_template, $support_email;
     
-    $headers  = "From:".$supportEmail ."\r\n";
+    $headers  = "From:".$support_email ."\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     
-    $message = str_replace('username', $auditeeName, $emailTemplate);
+    $message = str_replace('username', $auditeeName, $email_template);
 
     $mail_success = mail($sendTo, $subject, $message, $headers);
 }

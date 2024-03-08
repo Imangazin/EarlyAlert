@@ -44,6 +44,6 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
     }
 }
 else { 
-    echo 'LTI credentials not valid. Please refresh the page and try again. If you continue to receive this message please contact <a href="mailto:'.$supportEmail.'?Subject=Quick Add Widget Issue" target="_top">'.$supportEmail.'</a>';
+    echo 'LTI credentials not valid. Please refresh the page and try again. If you continue to receive this message please contact <a href="mailto:'.$support_email.'?Subject=Early Alert Widget Issue" target="_top">'.$support_email.'</a>';
 }
 ?>
