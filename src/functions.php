@@ -236,8 +236,10 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $audi
 function sendEmail($auditeeName, $sendTo){
     global $subject, $emailTemplate;
     $message = str_replace('username', $auditeeName, $emailTemplate);
-    $headers = "From: $supportEmail\r\n";
-    $headers .= "Content-Type: text/plain;charset=utf-8\r\n";
+    $headers = "From:". $supportEmail . "\r\n";
+    $headers .= "Content-Type: text/html;charset=utf-8\r\n";
+    $headers .= "MIME-Version: 1.0" . "\r\n";
+
 
     $mail_success = mail($sendTo, $subject, $message, $headers);
 }
