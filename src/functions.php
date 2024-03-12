@@ -192,7 +192,7 @@ function getGroupId($orgUnitId, $categoryId, $currentTerm, $myAuditors){
             $groupId = $group->GroupId;
         }
         else {
-            deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments, $myAuditors);
+            deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments);
         }
     }
     if ($groupId==-1){
@@ -218,12 +218,12 @@ function unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $userId){
 }
 
 //deletes a group, and removes auditors from the all users in the group
-function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $auditors){
+function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments){
     global $config;
     // unenroll users before  deleting the group.
-    $myAuditors = explode(',', $auditors);
-    
     foreach ($enrollments as $userId){
+        $auditors = getMyAuditors($userId);
+        $myAuditors = explode(',', $auditors);
         foreach ($myAuditors as $auditorId) {
             $response = addDeleteAuditor("DELETE",$auditorId, $userId);
         }    
