@@ -1,6 +1,6 @@
 <?php
 require_once("src/info.php");
-require_once("src/functions.php");
+//require_once("src/functions.php");
 // Load up the LTI Support code
 require_once 'ims-blti/blti.php';
 

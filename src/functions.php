@@ -1,7 +1,7 @@
 <?php
 // collection of functions
 require_once("info.php");
-//require_once("doValence.php");
+require_once("doValence.php");
 
 // Checks user's browser, returns true if it is Safari
 function isSafari() {
