@@ -246,4 +246,3 @@ function sendEmail($auditeeName, $sendTo){
 }
 
 ?>
-w
