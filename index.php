@@ -1,6 +1,6 @@
 <?php
 require_once("src/info.php");
-//require_once("src/functions.php");
+require_once("src/functions.php");
 // Load up the LTI Support code
 require_once 'ims-blti/blti.php';
 
@@ -19,28 +19,28 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
     if($context->complete) exit(); //True if redirect was done by BLTI class
     if($context->valid) { //True if LTI request was verified
 
-        // //UserId who launched the tool
-        // $userId = preg_match('/_(\d+)/', $context->info['user_id'], $matches) ? $matches[1] : '-1';
-        // //the course where tool was launched
-        // $orgUnitId = $context->info['context_id'];
+        //UserId who launched the tool
+        $userId = preg_match('/_(\d+)/', $context->info['user_id'], $matches) ? $matches[1] : '-1';
+        //the course where tool was launched
+        $orgUnitId = $context->info['context_id'];
 
-        // //the list of advisors
-        // $advisors = getAdvisors($orgUnitId);
-        // //user's auditor list
-        // $myAuditors = getMyAuditors($userId);
+        //the list of advisors
+        $advisors = getAdvisors($orgUnitId);
+        //user's auditor list
+        $myAuditors = getMyAuditors($userId);
 
-        // //creating groups based on current term in the LMS to track user consents
-        // //groups then used to cancel user audits
-        // $groupCategoryId = getGroupCategoryId($orgUnitId);
-        // $currentTerm = getCurrentAcademicTerm();
-        // $groupId = getGroupId($orgUnitId, $groupCategoryId, $currentTerm, $myAuditors);
+        //creating groups based on current term in the LMS to track user consents
+        //groups then used to cancel user audits
+        $groupCategoryId = getGroupCategoryId($orgUnitId);
+        $currentTerm = getCurrentAcademicTerm();
+        $groupId = getGroupId($orgUnitId, $groupCategoryId, $currentTerm, $myAuditors);
 
-        // $hasAuditor = hasAuditor($userId);
-        // //widget language
-        // $message = $hasAuditor ? $widget_cancel_message : $widget_consent_message;
+        $hasAuditor = hasAuditor($userId);
+        //widget language
+        $message = $hasAuditor ? $widget_cancel_message : $widget_consent_message;
 
         //main page
-        //include 'home.php';
+        include 'home.php';
     }
 }
 else { 
