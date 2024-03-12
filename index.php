@@ -40,7 +40,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $message = $hasAuditor ? $widget_cancel_message : $widget_consent_message;
 
         //main page
-        include 'home.php';
+        //include 'home.php';
     }
 }
 else { 
