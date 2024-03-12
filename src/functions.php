@@ -1,7 +1,7 @@
 <?php
 // collection of functions
 require_once("info.php");
-require_once("doValence.php");
+//require_once("doValence.php");
 
 // Checks user's browser, returns true if it is Safari
 function isSafari() {
@@ -233,17 +233,17 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments, $audi
 }
 
 //sends an email notification to the advisor
-// function sendEmail($auditeeName, $sendTo){
-//     global $subject, $email_template, $support_email;
+function sendEmail($auditeeName, $sendTo){
+    global $subject, $email_template, $support_email;
     
-//     $headers  = "From:".$support_email ."\r\n";
-// 	$headers .= "MIME-Version: 1.0\r\n";
-// 	$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers  = "From:".$support_email ."\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     
-//     $message = str_replace('username', $auditeeName, $email_template);
+    $message = str_replace('username', $auditeeName, $email_template);
 
-//     $mail_success = mail($sendTo, $subject, $message, $headers);
-// }
+    $mail_success = mail($sendTo, $subject, $message, $headers);
+}
 
 ?>
 w
