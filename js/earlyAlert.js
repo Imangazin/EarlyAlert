@@ -37,3 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+function sendHeightToParent() {
+    var height = document.body.scrollHeight;
+    window.parent.postMessage({
+        type: 'setHeight',
+        height: height
+    }, 'https://brocktest.brightspace.com');
+}
+
+window.onload = sendHeightToParent;
