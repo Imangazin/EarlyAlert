@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
             responseContainer.className = 'alert alert-success';
             responseContainer.focus();
             responseContainer.innerHTML = response;
-            sendHeightToParent();
         })
         .catch(error => {
             // Handle errors
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const responseContainer = document.getElementById('responseContainer');
             responseContainer.focus();
             responseContainer.innerHTML = 'An error occurred. Please try again.';
-            sendHeightToParent();
         });
     });
 });
