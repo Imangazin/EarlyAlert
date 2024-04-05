@@ -1,0 +1,17 @@
+<iframe id="dynamicIframe" src="" style="overflow-y: hidden; width: 100%;" scrolling="no" frameborder="0"></iframe>
+<script>
+    // Function to handle messages received from the iframe
+    function handleMessage(event) {
+        if (event.origin !== 'https://kumu.brocku.ca') {
+            // Ignore messages not from expected origin
+            return;
+        }
+        if (event.data && typeof event.data === 'object' && event.data.type === 'setHeight') {
+            // Set the iframe height based on the message data
+            document.getElementById('dynamicIframe').style.height = 80 + event.data.height + 'px';
+        }
+    }
+
+    // Attach message event listener
+    window.addEventListener('message', handleMessage);
+</script>
