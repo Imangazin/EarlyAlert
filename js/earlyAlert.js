@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const responseContainer = document.getElementById('responseContainer');
             responseContainer.className = 'alert alert-success';
             responseContainer.focus();
+            sendHeightToParent();
             responseContainer.innerHTML = response;
         })
         .catch(error => {
