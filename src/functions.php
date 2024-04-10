@@ -21,7 +21,7 @@ function getAdvisors($orgUnitId, $groupCategoryId){
     $groupId = -1;
     $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/');
     foreach ($groups['response'] as $group) {
-        if ($group->Code == 'advisors') {
+        if ($group->Code == 'Advisors') {
             $groupId = $group->GroupId;
         }
     }
