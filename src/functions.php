@@ -16,16 +16,27 @@ function hasAuditor($userId){
 }
 
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
-function getAdvisors($orgUnitId){
+function getAdvisors($orgUnitId, $groupCategoryId){
     global $config;
-    $qparams = array("roleId"=>109);
-    $response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/enrollments/orgUnits/'.$orgUnitId.'/users/?roleId=109');
+    $groupId = -1;
+    $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/');
+    foreach ($groups['response'] as $group) {
+        if ($group->Code == 'advisors') {
+            $groupId = $group->GroupId;
+        }
+    }
+    if ($groupId == -1) {
+        $groupId = createGroup($orgUnitId, $groupCategoryId, 'Advisors');
+    }
     $advisors = array();
-    foreach($response['response']->Items as $advisor){
-        $id = $advisor->User->Identifier;
-        $fullName = $advisor->User->DisplayName;
-        $email = $advisor->User->EmailAddress;
-        $advisors[$id.'-'.$email] = $fullName;
+
+    $groupUsers = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId);
+
+    foreach($groupUsers['response']->Enrollments as $advisorId){
+        $advisorInfo = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/users/'. $advisorId);
+        $fullName = $advisorInfo['response']->DisplayName;
+        $email = $advisorInfo['response']->ExternalEmail;
+        $advisors[$advisorId.'-'.$email] = $fullName;
     }
     return $advisors;
 }
@@ -115,75 +126,11 @@ function getGroupCategoryId($orgUnitId){
     return $groupCategoryId;
 }
 
-//Earlier version of the tool that creates groups based on the available semesters in the LMS
-//left here in case we would like to use it
-
-// function getGroups($orgUnitId, $categoryId){
-//     global $config;
-    
-//     // Collecting terms info, paged response
-//     $hasMore = true;
-//     $bookmark = '';
-//     $data = array();
-//     while ($hasMore){
-//         $terms_response = doValenceRequest('GET', '/d2l/api/lp/'.$config['LP_Version'].'/orgstructure/?orgUnitType=5&orgUnitCode=2023&bookmark='.$bookmark);
-//         foreach($terms_response['response']->Items as $item){
-//             array_push($data, array('Name'=>$item->Name, 'Code' => $item->Code));
-//         }
-//         $hasMore = $terms_response['response']->PagingInfo->HasMoreItems;
-//         $bookmark = $terms_response['response']->PagingInfo->Bookmark;
-//     }
-
-//     // Get the current year and month
-//     $currentYear = date('Y');
-//     $currentMonth = date('n');
-//     $months = array('SP'=>6, 'SU'=>8, 'FW'=>12);
-
-//     $groups_response =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/');
-
-//     // Create an array to store the results
-//     $terms = array();
-
-//     foreach ($data as $entry) {
-//         $code = $entry['Code'];
-//         // Extract year and term from the "Code" field
-//         $year = substr($code, 0, 4);
-//         $term = substr($code, -2);
-//         $termMonths = $months[$term];
-//         if ($year > $currentYear) {
-//             $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
-//             array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
-//         }elseif($year == $currentYear && $termMonths>=$currentMonth){
-//             $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
-//             array_push($terms, array('Code' => $code, 'Name' => $entry['Name'], 'groupId' => $groupId));
-//         }elseif($year+1==$currentYear && $termMonths==12 && $currentMonth<5){
-//             $groupId = getGroupId($orgUnitId, $categoryId, $groups_response['response'], $entry['Name'], $code);
-//             array_push($terms, array('Code' => $code, 'Name' =>$entry['Name'], 'groupId' => $groupId));
-//         }
-//     }
-
-//     return $terms;
-// }
-
-// function getGroupId($orgUnitId, $categoryId, $groups, $name, $code){
-//     $groupId = -1;
-//     foreach ($groups as $group) {
-//         if ($group->Code == $code) {
-//             $groupId = $group->GroupId;
-//             return  $groupId;
-//         }
-//     }
-//     if ($groupId==-1){
-//         $groupId = createGroup($orgUnitId, $categoryId, $name, $code);
-//     }
-//     return  $groupId;
-// }
-
 //returns group id based on the currrent term.
 //checks if there is a group for a current term
 //if there is none, then creates one
 //if other groups found, then calls delete 
-function getGroupId($orgUnitId, $categoryId, $currentTerm, $myAuditors){
+function getGroupId($orgUnitId, $categoryId, $currentTerm){
     global $config;
     $groupId = -1;
     $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/');
@@ -192,7 +139,8 @@ function getGroupId($orgUnitId, $categoryId, $currentTerm, $myAuditors){
             $groupId = $group->GroupId;
         }
         else {
-            deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments);
+            if ($group->Code != 'Advisors')
+                deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments);
         }
     }
     if ($groupId==-1){
@@ -228,7 +176,6 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments){
             $response = addDeleteAuditor("DELETE",$auditorId, $userId);
         }    
     }
-    echo 'auditor: '.$auditorId.'.  auditeeId: '.$auditeeId.'<br>';
     $deleteGroup = doValenceRequest('DELETE', '/d2l/api/lp/'.$config['LP_Version'].'/'.$orgUnitId.'/groupcategories/'.$categoryId.'/groups/'.$groupId);
 }
 

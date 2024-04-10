@@ -24,17 +24,15 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         //the course where tool was launched
         $orgUnitId = $context->info['context_id'];
 
-        //the list of advisors
-        $advisors = getAdvisors($orgUnitId);
-        //user's auditor list
-        $myAuditors = getMyAuditors($userId);
-
         //creating groups based on current term in the LMS to track user consents
         //groups then used to cancel user audits
         $groupCategoryId = getGroupCategoryId($orgUnitId);
         $currentTerm = getCurrentAcademicTerm();
-        $groupId = getGroupId($orgUnitId, $groupCategoryId, $currentTerm, $myAuditors);
+        $groupId = getGroupId($orgUnitId, $groupCategoryId, $currentTerm);
 
+         //the list of advisors
+        $advisors = getAdvisors($orgUnitId, $groupCategoryId);
+        
         $hasAuditor = hasAuditor($userId);
         //widget language
         $message = $hasAuditor ? $widget_cancel_message : $widget_consent_message;
