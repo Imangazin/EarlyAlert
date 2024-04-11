@@ -34,7 +34,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         $advisors = getAdvisors($orgUnitId, $groupCategoryId);
         
         //the list of user's auditors
-        $$myAuditors = getMyAuditors($userId);
+        $myAuditors = getMyAuditors($userId);
         
         $hasAuditor = hasAuditor($userId);
         //widget language
