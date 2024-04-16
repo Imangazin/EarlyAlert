@@ -18,26 +18,47 @@ function hasAuditor($userId){
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
 function getAdvisors($orgUnitId, $groupCategoryId){
     global $config;
-    $groupId = -1;
-    $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/');
-    foreach ($groups['response'] as $group) {
-        if ($group->Code == 'Advisors') {
-            $groupId = $group->GroupId;
-        }
+    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=200';
+    $classlist = array();
+    while (!is_null($url)){
+        $response = doValenceRequest('GET', $url);
+        $classlist = array_merge($classlist, $response['response']->Objects);
+        $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
     }
-    if ($groupId == -1) {
-        $groupId = createGroup($orgUnitId, $groupCategoryId, 'Advisors');
-    }
+
+
+    echo var_dump($classlist);
+
+
+    // $groupId = -1;
+    // $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/');
+    // foreach ($groups['response'] as $group) {
+    //     if ($group->Code == 'Advisors') {
+    //         $groupId = $group->GroupId;
+    //     }
+    // }
+    // if ($groupId == -1) {
+    //     $groupId = createGroup($orgUnitId, $groupCategoryId, 'Advisors');
+    // }
+
+
+
+
+
+
+
+
+
     $advisors = array();
 
-    $groupUsers = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId);
+    // $groupUsers = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId);
 
-    foreach($groupUsers['response']->Enrollments as $advisorId){
-        $advisorInfo = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/users/'. $advisorId);
-        $fullName = $advisorInfo['response']->DisplayName;
-        $email = $advisorInfo['response']->ExternalEmail;
-        $advisors[$advisorId.'-'.$email] = $fullName;
-    }
+    // foreach($groupUsers['response']->Enrollments as $advisorId){
+    //     $advisorInfo = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/users/'. $advisorId);
+    //     $fullName = $advisorInfo['response']->DisplayName;
+    //     $email = $advisorInfo['response']->ExternalEmail;
+    //     $advisors[$advisorId.'-'.$email] = $fullName;
+    // }
     return $advisors;
 }
 
@@ -139,8 +160,7 @@ function getGroupId($orgUnitId, $categoryId, $currentTerm){
             $groupId = $group->GroupId;
         }
         else {
-            if ($group->Code != 'Advisors')
-                deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments);
+            deletePastTerms($orgUnitId, $categoryId,  $group->GroupId, $group->Enrollments);
         }
     }
     if ($groupId==-1){
