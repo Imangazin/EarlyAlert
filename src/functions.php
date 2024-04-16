@@ -20,12 +20,12 @@ function getAdvisors($orgUnitId, $groupCategoryId){
     global $config;
     $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=200';
     $classlist = array();
-    while (!is_null($url)){
-        $response = doValenceRequest('GET', $url);
-        $classlist = array_merge($classlist, $response['response']->Objects);
-        $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
-        if (!is_null($url)) echo "It is null"; else echo "It is not null";
-    }
+    // while (!is_null($url)){
+    //     $response = doValenceRequest('GET', $url);
+    //     $classlist = array_merge($classlist, $response['response']->Objects);
+    //     $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
+    //     if (!is_null($url)) echo "It is null"; else echo "It is not null";
+    // }
 
 
     echo var_dump($classlist);
