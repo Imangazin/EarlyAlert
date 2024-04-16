@@ -24,6 +24,7 @@ function getAdvisors($orgUnitId, $groupCategoryId){
         $response = doValenceRequest('GET', $url);
         $classlist = array_merge($classlist, $response['response']->Objects);
         $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
+        if (!is_null($url)) echo "It is null"; else echo "It is not null";
     }
 
 
