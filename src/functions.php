@@ -29,7 +29,7 @@ function getAdvisors($orgUnitId, $groupCategoryId){
     }
 
 
-    echo var_dump($classlist);
+    echo print_r($classlist);
 
 
     // $groupId = -1;
