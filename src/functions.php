@@ -18,14 +18,14 @@ function hasAuditor($userId){
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
 function getAdvisors($orgUnitId, $groupCategoryId){
     global $config;
-    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=200';
+    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=1';
     $classlist = array();
-    if ($url != null) echo "It is not null"; else echo "It is null";
+    
     while ($url !=null){
         $response = doValenceRequest('GET', $url);
         $classlist = array_merge($classlist, $response['response']->Objects);
         $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
-        
+        if ($url != null) echo "It is not null"; else echo "It is null";
     }
 
 
