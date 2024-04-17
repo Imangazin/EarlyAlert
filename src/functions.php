@@ -54,9 +54,7 @@ function addDeleteAuditor($verb, $auditorId, $auditeeId){
 
 //returns current academic turn
 function getCurrentAcademicTerm() {
-    //$currentMonth = date('n');
-    $currentMonth = 5;
-    //$currentMonth = 10;
+    $currentMonth = date('n');
     $currentYear = date('Y');
     if ($currentMonth >= 1 && $currentMonth <= 4) {
         return "Winter-".$currentYear;
