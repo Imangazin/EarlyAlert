@@ -14,17 +14,15 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
     $userId = $_SESSION['_basic_lti_context']['user_id'];
     preg_match('/_(\d+)/', $userId, $matches);
     $auditeeId = (bool) $matches ? $matches[1] : -1;
+    $groupCategoryId = $_POST["groupCategoryId"];
+    $groupId = $_POST["groupId"];
     
     if (isset($_POST["advisor"])){
-        $advisorInfo = explode( "-",$_POST["advisor"]);
-        $auditorId = $advisorInfo[0];
-        $auditorEmail = $advisorInfo[1];
+        $auditorId = $_POST["advisor"];
         $response = addDeleteAuditor("POST",$auditorId, $auditeeId);
         if ($response['Code']==200) {
-            $groupCategoryId = $_POST["groupCategoryId"];
-            $groupId = $_POST["groupId"];
             enrollToGroup($orgUnitId, $groupCategoryId, $groupId, $auditeeId);
-            sendEmail($_SESSION['_basic_lti_context']['lis_person_name_full'], $auditorEmail);
+            sendEmail($_SESSION['_basic_lti_context']['lis_person_name_full'], $auditorId);
             echo $consent_feedback ;
         }
         else {
@@ -32,13 +30,11 @@ if($_SESSION['_basic_lti_context']['oauth_consumer_key'] == $lti_auth['key']){
             echo $response['response'];
         }
     } else{
-        $myAuditors = explode(',', $_POST["myAuditors"]);
+        $myAuditors = explode(',', getMyAuditors($auditeeId));
         foreach ($myAuditors as $auditorId) {
             $response = addDeleteAuditor("DELETE",$auditorId, $auditeeId);
         }    
         if ($response['Code']==200) {
-            $groupCategoryId = $_POST["groupCategoryId"];
-            $groupId = $_POST["groupId"];
             unEnrollFromGroup($orgUnitId, $groupCategoryId, $groupId, $auditeeId);
             echo $cancel_feedback ;
         }

@@ -25,7 +25,6 @@
     <?php echo $message; ?>
     <form method="post" id="earlyAlertForm">
       <input type="hidden" name="session_id" value='<?php echo session_id(); ?>'>
-      <input type ="hidden" name="myAuditors" value='<?php echo $myAuditors; ?>'>
       <input type ="hidden" name="groupCategoryId" value='<?php echo $groupCategoryId; ?>'>
       <input type ="hidden" name="groupId" value='<?php echo $groupId; ?>'>
       <?php 

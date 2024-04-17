@@ -33,9 +33,6 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
          //the list of advisors
         $advisors = getAdvisors($orgUnitId, $groupCategoryId);
         
-        //the list of user's auditors
-        $myAuditors = getMyAuditors($userId);
-        
         $hasAuditor = hasAuditor($userId);
         //widget language
         $message = $hasAuditor ? $widget_cancel_message : $widget_consent_message;
