@@ -44,7 +44,15 @@ function sendHeightToParent() {
     window.parent.postMessage({
         type: 'setHeight',
         height: height
-    }, window.location.origin);
+    }, getParentOrigin());
+}
+
+// Function to get the origin of the parent window
+function getParentOrigin() {
+    var parentUrl = document.referrer;
+    var urlParser = document.createElement('a');
+    urlParser.href = parentUrl;
+    return urlParser.protocol + '//' + urlParser.hostname + (urlParser.port ? ':' + urlParser.port : '');
 }
 
 window.onload = sendHeightToParent;
