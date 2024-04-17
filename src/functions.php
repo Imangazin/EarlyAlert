@@ -35,12 +35,12 @@ function getAdvisors($orgUnitId, $groupCategoryId){
             foreach ($user->IssuedAwards->Objects as $issued_award) {
                 // Check if AwardId equals 146
                 if ($issued_award->Award->AwardId == 146) {
-                    // // Add UserId and DisplayName to the array
-                    // $advisors[] = array(
-                    //     'UserId' => $user['UserId'],
-                    //     'DisplayName' => $user['DisplayName']
-                    // );
-                    // // Break the loop if UserId with AwardId 146 is found
+                    // Add UserId and DisplayName to the array
+                    $advisors[] = array(
+                        'UserId' => $user['UserId'],
+                        'DisplayName' => $user['DisplayName']
+                    );
+                    // Break the loop if UserId with AwardId 146 is found
                     break;
                 }
             }
