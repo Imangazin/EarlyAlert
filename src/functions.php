@@ -30,21 +30,21 @@ function getAdvisors($orgUnitId, $groupCategoryId){
     }
 
     foreach($classlist as $user){
-        // // Check if IssuedAwards exist and iterate through them
-        // if (isset($user['IssuedAwards']['Objects'])) {
-        //     foreach ($user['IssuedAwards']['Objects'] as $issued_award) {
-        //         // Check if AwardId equals 146
-        //         if ($issued_award['Award']['AwardId'] == 146) {
-        //             // Add UserId and DisplayName to the array
-        //             $advisors[] = array(
-        //                 'UserId' => $user['UserId'],
-        //                 'DisplayName' => $user['DisplayName']
-        //             );
-        //             // Break the loop if UserId with AwardId 146 is found
-        //             break;
-        //         }
-        //     }
-        // }
+        // Check if IssuedAwards exist and iterate through them
+        if (isset($user['IssuedAwards']['Objects'])) {
+            // foreach ($user['IssuedAwards']['Objects'] as $issued_award) {
+            //     // Check if AwardId equals 146
+            //     if ($issued_award['Award']['AwardId'] == 146) {
+            //         // Add UserId and DisplayName to the array
+            //         $advisors[] = array(
+            //             'UserId' => $user['UserId'],
+            //             'DisplayName' => $user['DisplayName']
+            //         );
+            //         // Break the loop if UserId with AwardId 146 is found
+            //         break;
+            //     }
+            // }
+        }
     }
     return $advisors;
 }
