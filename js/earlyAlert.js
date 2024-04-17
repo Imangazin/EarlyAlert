@@ -44,7 +44,7 @@ function sendHeightToParent() {
     window.parent.postMessage({
         type: 'setHeight',
         height: height
-    }, 'https://brocktest.brightspace.com');
+    }, window.location.origin);
 }
 
 window.onload = sendHeightToParent;

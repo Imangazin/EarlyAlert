@@ -17,7 +17,7 @@ function hasAuditor($userId){
 
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
 function getAdvisors($orgUnitId, $groupCategoryId){
-    global $config;
+    global $config, $awardId;
     $classlist = array();
     $advisors = array();
 
@@ -34,7 +34,7 @@ function getAdvisors($orgUnitId, $groupCategoryId){
         if (isset($user->IssuedAwards->Objects)) {
             foreach ($user->IssuedAwards->Objects as $issued_award) {
                 // Check if AwardId equals 146
-                if ($issued_award->Award->AwardId == 146) {
+                if ($issued_award->Award->AwardId == $awardId) {
                     // Add UserId and DisplayName to the array
                     $advisors[$user->UserId] = $user->DisplayName;
                     // Break the loop if UserId with AwardId 146 is found

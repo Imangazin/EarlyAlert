@@ -6,6 +6,12 @@ $cookie_location = '';
 //Support email adress
 $support_email = ''; 
 
+//Award set-up
+//Advisor award must be already available across the organization
+//Then add it to the course offering where the widget will be installed
+//Copy the awardId from the award edit page url
+$awardId=0;
+
 //Email settings
 $subject = '';
 $email_template = '';
