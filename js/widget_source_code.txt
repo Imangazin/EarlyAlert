@@ -2,7 +2,7 @@
 <script>
     // Function to handle messages received from the iframe
     function handleMessage(event) {
-        if (event.origin !== 'https://kumu.brocku.ca') {
+        if (event.origin !== '<server domain where lti tool placed>') {
             // Ignore messages not from expected origin
             return;
         }
