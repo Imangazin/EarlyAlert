@@ -186,7 +186,7 @@ function deletePastTerms($orgUnitId, $categoryId,  $groupId, $enrollments){
 //sends an email notification to the advisor
 function sendEmail($auditeeName, $auditorId){
     global $subject, $email_template, $support_email, $config;
-    $response = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/users/'. $advisorId);
+    $response = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/users/'. $auditorId);
     $sendTo = $response['response']->ExternalEmail;
     $headers  = "From:".$support_email ."\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
