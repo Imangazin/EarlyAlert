@@ -37,8 +37,8 @@ function getAdvisors($orgUnitId, $groupCategoryId){
                 if ($issued_award['Award']['AwardId'] == 146) {
                     // Add UserId and DisplayName to the array
                     $advisors[] = array(
-                        'UserId' => $$user['UserId'],
-                        'DisplayName' => $$user['DisplayName']
+                        'UserId' => $user['UserId'],
+                        'DisplayName' => $user['DisplayName']
                     );
                     // Break the loop if UserId with AwardId 146 is found
                     break;
