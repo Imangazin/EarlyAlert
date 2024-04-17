@@ -18,49 +18,34 @@ function hasAuditor($userId){
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
 function getAdvisors($orgUnitId, $groupCategoryId){
     global $config;
-    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=1';
     $classlist = array();
-    
+    $advisors = array();
+
+    //paged award classlist api call
+    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=1';
     while ($url !=null){
         $response = doValenceRequest('GET', $url);
         $classlist = array_merge($classlist, $response['response']->Objects);
         $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
-        if ($url != null) echo "It is not null"; else echo "It is null";
     }
 
-
-    echo print_r($classlist);
-
-
-    // $groupId = -1;
-    // $groups =  doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/');
-    // foreach ($groups['response'] as $group) {
-    //     if ($group->Code == 'Advisors') {
-    //         $groupId = $group->GroupId;
-    //     }
-    // }
-    // if ($groupId == -1) {
-    //     $groupId = createGroup($orgUnitId, $groupCategoryId, 'Advisors');
-    // }
-
-
-
-
-
-
-
-
-
-    $advisors = array();
-
-    // $groupUsers = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/'.$orgUnitId.'/groupcategories/'.$groupCategoryId.'/groups/'.$groupId);
-
-    // foreach($groupUsers['response']->Enrollments as $advisorId){
-    //     $advisorInfo = doValenceRequest('GET', '/d2l/api/lp/'.$config["LP_Version"].'/users/'. $advisorId);
-    //     $fullName = $advisorInfo['response']->DisplayName;
-    //     $email = $advisorInfo['response']->ExternalEmail;
-    //     $advisors[$advisorId.'-'.$email] = $fullName;
-    // }
+    foreach($classlist as $user){
+        // Check if IssuedAwards exist and iterate through them
+        if (isset($user['IssuedAwards']['Objects'])) {
+            foreach ($user['IssuedAwards']['Objects'] as $issued_award) {
+                // Check if AwardId equals 146
+                if ($issued_award['Award']['AwardId'] == 146) {
+                    // Add UserId and DisplayName to the array
+                    $advisors[] = array(
+                        'UserId' => $$user['UserId'],
+                        'DisplayName' => $$user['DisplayName']
+                    );
+                    // Break the loop if UserId with AwardId 146 is found
+                    break;
+                }
+            }
+        }
+    }
     return $advisors;
 }
 
