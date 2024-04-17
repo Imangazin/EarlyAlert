@@ -22,7 +22,7 @@ function getAdvisors($orgUnitId, $groupCategoryId){
     $advisors = array();
 
     //paged award classlist api call
-    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=1';
+    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=200';
     while ($url !=null){
         $response = doValenceRequest('GET', $url);
         $classlist = array_merge($classlist, $response['response']->Objects);
