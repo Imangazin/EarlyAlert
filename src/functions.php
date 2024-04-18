@@ -31,7 +31,7 @@ function getAdvisors($orgUnitId){
     // }
 
     //gets first 50 users from the classlist, where it is ordered by users who has an award
-    $classlist = doValenceRequest('GET', $url)['response']->Objects;
+    $classlist = doValenceRequest('GET', $url);
 echo  print_r($classlist);
     // foreach($classlist as $user){
     //     // Check if IssuedAwards exist and iterate through them
