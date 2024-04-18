@@ -37,7 +37,7 @@ if(isset($_REQUEST['lti_message_type'])) {    //Is this an LTI Request?
         if ($hasAuditor){
             $message = $widget_cancel_message;
         } else {
-            $advisors = getAdvisors($orgUnitId);
+           // $advisors = getAdvisors($orgUnitId);
             $message = $widget_consent_message;
         }
 
