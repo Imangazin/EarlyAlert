@@ -18,7 +18,6 @@ function hasAuditor($userId){
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
 function getAdvisors($orgUnitId){
     global $config, $awardId;
-    $classlist = array();
     $advisors = array();
 
     $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=50';
