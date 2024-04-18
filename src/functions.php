@@ -31,22 +31,22 @@ function getAdvisors($orgUnitId){
     // }
 
     //gets first 50 users from the classlist, where it is ordered by users who has an award
-    $classlist = doValenceRequest('GET', $url)['response']->Objects;
+    // $classlist = doValenceRequest('GET', $url)['response']->Objects;
 
-    foreach($classlist as $user){
-        // Check if IssuedAwards exist and iterate through them
-        if (isset($user->IssuedAwards->Objects)) {
-            foreach ($user->IssuedAwards->Objects as $issued_award) {
-                // Check if AwardId equals 146
-                if ($issued_award->Award->AwardId == $awardId) {
-                    // Add UserId and DisplayName to the array
-                    $advisors[$user->UserId] = $user->DisplayName;
-                    // Break the loop if UserId with AwardId 146 is found
-                    break;
-                }
-            }
-        }
-    }
+    // foreach($classlist as $user){
+    //     // Check if IssuedAwards exist and iterate through them
+    //     if (isset($user->IssuedAwards->Objects)) {
+    //         foreach ($user->IssuedAwards->Objects as $issued_award) {
+    //             // Check if AwardId equals 146
+    //             if ($issued_award->Award->AwardId == $awardId) {
+    //                 // Add UserId and DisplayName to the array
+    //                 $advisors[$user->UserId] = $user->DisplayName;
+    //                 // Break the loop if UserId with AwardId 146 is found
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
     return $advisors;
 }
 
