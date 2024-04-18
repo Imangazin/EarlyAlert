@@ -16,18 +16,23 @@ function hasAuditor($userId){
 }
 
 // Returns the list of auditors for the user in the following format : advisors['2222-example@email.com']=Full Name;
-function getAdvisors($orgUnitId, $groupCategoryId){
+function getAdvisors($orgUnitId){
     global $config, $awardId;
     $classlist = array();
     $advisors = array();
 
-    //paged award classlist api call
-    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=200';
-    while ($url !=null){
-        $response = doValenceRequest('GET', $url);
-        $classlist = array_merge($classlist, $response['response']->Objects);
-        $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
-    }
+    $url = '/d2l/api/bas/1.1/orgunits/'.$orgUnitId.'/classlist/?awardType=1&limit=50';
+    
+    // The following api result is paged, but we are not using it simply because it is sorted by users who has award type 1
+    // //paged award classlist api call
+    // while ($url !=null){
+    //     $response = doValenceRequest('GET', $url);
+    //     $classlist = array_merge($classlist, $response['response']->Objects);
+    //     $url = substr($response['response']->Next, strpos($response['response']->Next, "/d2l"));
+    // }
+
+    //gets first 50 users from the classlist, where it is ordered by users who has an award
+    $classlist = doValenceRequest('GET', $url)['response']->Objects;
 
     foreach($classlist as $user){
         // Check if IssuedAwards exist and iterate through them
